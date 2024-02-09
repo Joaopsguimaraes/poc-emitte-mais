@@ -24,7 +24,7 @@ export function SidebarHolder({ items }: Props) {
   return items.length ? (
     <aside
       className={cn(
-        'bg-background relative min-h-screen p-0',
+        'bg-primary relative min-h-screen p-0',
         isCollapse ? 'w-[80px]' : 'w-[240px]'
       )}
     >
