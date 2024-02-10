@@ -202,9 +202,6 @@ export default {
         'tabContent-right': 'tabContent-right 0.5s ease-in-out',
       },
     },
-    fontFamily: {
-      noto: ['var(--font-kingpsan)', ...fontFamily.sans],
-    },
     letterSpacing: {
       xs: '0.4px',
       sm: '0.25px',

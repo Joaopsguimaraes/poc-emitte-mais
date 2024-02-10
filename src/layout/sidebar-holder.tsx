@@ -1,7 +1,6 @@
 'use client'
 
 import Image from 'next/image'
-import { useTheme } from 'next-themes'
 
 import { cn } from '@/lib/utils'
 import { useSidebar } from '@/hooks/use-sidebar'
@@ -15,6 +14,7 @@ type Props = {
 
 export function SidebarHolder({ items }: Props) {
   const { isCollapse } = useSidebar()
+
   let srcOfLogo = '/emitte-mais-logo.svg'
 
   if (isCollapse) {
@@ -24,7 +24,7 @@ export function SidebarHolder({ items }: Props) {
   return items.length ? (
     <aside
       className={cn(
-        'bg-primary relative min-h-screen p-0',
+        'bg-primary dark:bg-gray900 relative min-h-screen p-0',
         isCollapse ? 'w-[80px]' : 'w-[240px]'
       )}
     >

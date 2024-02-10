@@ -8,7 +8,6 @@ import { signOut, useSession } from 'next-auth/react'
 import { cn } from '@/lib/utils'
 import { useSidebar } from '@/hooks/use-sidebar'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   Popover,

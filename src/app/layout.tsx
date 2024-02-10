@@ -17,7 +17,7 @@ import { authOptions } from './api/auth/[...nextauth]/auth-config'
 
 const poppins = Poppins({
   subsets: ['latin'],
-  weight: '300',
+  weight: ['300', '400', '500', '600', '700'],
 })
 
 interface RootLayoutProps {
