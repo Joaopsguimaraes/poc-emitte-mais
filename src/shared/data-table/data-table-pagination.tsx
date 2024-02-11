@@ -91,7 +91,7 @@ export function DataTablePagination() {
             disabled={!table.getCanPreviousPage()}
             onClick={() => updateCurrentPage(firstPageIndex)}
             size="icon"
-            variant="outline"
+            variant="ghost"
           >
             <ChevronsLeftIcon className="size-4" />
           </Button>
@@ -100,7 +100,7 @@ export function DataTablePagination() {
             disabled={!table.getCanPreviousPage()}
             onClick={() => updateCurrentPage(previousPageIndex)}
             size="icon"
-            variant="outline"
+            variant="ghost"
           >
             <ChevronLeftIcon className="size-4" />
           </Button>
@@ -109,7 +109,7 @@ export function DataTablePagination() {
             disabled={!table.getCanNextPage()}
             onClick={() => updateCurrentPage(nextPageIndex)}
             size="icon"
-            variant="outline"
+            variant="ghost"
           >
             <ChevronRightIcon className="size-4" />
           </Button>
@@ -118,7 +118,7 @@ export function DataTablePagination() {
             disabled={!table.getCanNextPage()}
             onClick={() => updateCurrentPage(lastPageIndex)}
             size="icon"
-            variant="outline"
+            variant="ghost"
           >
             <ChevronsRightIcon className="size-4" />
           </Button>

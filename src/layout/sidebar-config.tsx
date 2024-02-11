@@ -1,6 +1,13 @@
 import { type ReactNode } from 'react'
 import { Routes } from '@/constants/routes'
-import { BarChartIcon, BoxesIcon, CurrencyIcon, HomeIcon, Receipt } from 'lucide-react'
+import {
+  BarChartIcon,
+  BoxesIcon,
+  CurrencyIcon,
+  HomeIcon,
+  Receipt,
+  UsersRound,
+} from 'lucide-react'
 
 export interface NavItem {
   title?: string
@@ -47,9 +54,9 @@ export const sidebarConfig: SidebarConfig = {
       title: 'Dashboard',
     },
     {
-      href: Routes.FINANCES,
-      icon: <Receipt className="size-4" />,
-      title: 'Cobrança',
+      href: Routes.CUSTOMERS,
+      icon: <UsersRound className="size-4" />,
+      title: 'Clientes',
     },
   ],
 }

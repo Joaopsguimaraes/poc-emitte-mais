@@ -9,16 +9,13 @@ import ThemeContext from '@/providers'
 import SessionProvider from '@/providers/session-provider'
 import { getServerSession } from 'next-auth'
 
+import { fontSans } from '@/lib/font'
+
 import { Sonner } from '../components/sonner'
 import { TailwindIndicator } from '../components/tailwind-indicator'
 import { Toaster } from '../components/toaster'
 import { cn } from '../lib/utils'
 import { authOptions } from './api/auth/[...nextauth]/auth-config'
-
-const poppins = Poppins({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-})
 
 interface RootLayoutProps {
   children: React.ReactNode
@@ -33,8 +30,8 @@ export default async function RootLayout({ children }: RootLayoutProps) {
         <head />
         <body
           className={cn(
-            'bg-accent flex w-screen overflow-x-hidden antialiased',
-            poppins.className
+            'bg-accent flex w-screen overflow-x-hidden font-sans antialiased',
+            fontSans.className
           )}
         >
           <SessionProvider session={session}>

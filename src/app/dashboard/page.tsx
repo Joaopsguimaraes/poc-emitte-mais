@@ -1,8 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { CalendarDateRangePicker } from '@/components/dashboard/date-range-picker'
 import { Overview } from '@/components/dashboard/overview'
-import { ResultsCards } from '@/components/dashboard/results-cards'
-import { resultsCardsConfig } from '@/components/dashboard/results-cards-config'
+import { RenderCards } from '@/components/dashboard/render-cards'
 import { InvoicesFromCustomer } from '@/components/dashboard/tables/invoices-from-customers'
 
 export default function DashboardPage() {
@@ -17,17 +16,7 @@ export default function DashboardPage() {
             </div>
           </div>
           <div className="flex w-full flex-col space-y-4">
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              {resultsCardsConfig.map(({ title, icon, value, description }) => (
-                <ResultsCards
-                  key={title}
-                  title={title}
-                  icon={icon}
-                  value={value}
-                  description={description}
-                />
-              ))}
-            </div>
+            <RenderCards />
             <div className="row-auto my-2 grid w-full space-y-4">
               <Card className="col-span-full">
                 <CardHeader>
