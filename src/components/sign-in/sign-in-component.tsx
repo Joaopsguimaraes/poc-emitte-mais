@@ -96,7 +96,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         <TabsContent value="sign-up">
           <Card>
             <CardHeader>
-              <CardTitle>Cadastra-se</CardTitle>
+              <CardTitle>Cadastra-se conosco</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
               <SignUpForm />
