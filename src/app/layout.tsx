@@ -35,14 +35,18 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           )}
         >
           <SessionProvider session={session}>
-            <ThemeContext>
-              <Sidebar />
-              <Header />
-              <Content>{children}</Content>
-              <TailwindIndicator />
-              <Toaster />
-              <Sonner />
-            </ThemeContext>
+            {session?.user ? (
+              <ThemeContext>
+                <Sidebar />
+                <Header />
+                <Content>{children}</Content>
+                <TailwindIndicator />
+                <Toaster />
+                <Sonner />
+              </ThemeContext>
+            ) : (
+              <ThemeContext>{children}</ThemeContext>
+            )}
           </SessionProvider>
         </body>
       </html>
