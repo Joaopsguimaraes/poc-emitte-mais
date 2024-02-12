@@ -10,8 +10,8 @@ import {
 import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
 
-interface FormInputProps {
-  name: string
+interface FormInputProps<T> {
+  name: keyof T
   label: string
   multiline?: boolean
   disabled?: boolean
@@ -20,7 +20,7 @@ interface FormInputProps {
   className?: string
 }
 
-export function FormInput({
+export function FormInput<T>({
   name,
   label,
   multiline,
@@ -28,13 +28,13 @@ export function FormInput({
   disabled,
   type,
   className
-}: FormInputProps) {
-  const { control } = useFormContext()
+}: FormInputProps<T>) {
+  const { control } = useFormContext<T | any>()
 
   return (
     <FormField
       control={control}
-      name={name}
+      name={name as string}
       render={({ field }) => (
         <FormItem className="flex w-full flex-col gap-2">
           <FormLabel>{label}</FormLabel>

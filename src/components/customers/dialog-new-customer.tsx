@@ -20,6 +20,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '../ui/dialog'
+import { ScrollArea, ScrollBar } from '../ui/scroll-area'
 
 export function DialogNewCustomer() {
   const form = useForm<NewCustomerType>({
@@ -48,22 +49,22 @@ export function DialogNewCustomer() {
       <DialogTrigger asChild>
         <Button>Novo cliente</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl">
-        <DialogTitle className="my-2">Novo cliente</DialogTitle>
-        <FormRender<NewCustomerType>
-          constant={fields}
-          form={form}
-          onSubmit={onSubmit}
-        >
-          <div className="flex w-full items-center justify-end gap-4">
-            <DialogClose asChild>
-              <Button type="button" variant="outline">
-                Cancelar
-              </Button>
-            </DialogClose>
-            <Button type="submit">Salvar</Button>
-          </div>
-        </FormRender>
+      <DialogContent className="sm:max-w-screen-sm md:max-w-screen-sm lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-xl">
+          <DialogTitle className="my-2">Novo cliente</DialogTitle>
+          <FormRender<NewCustomerType>
+            constant={fields}
+            form={form}
+            onSubmit={onSubmit}
+          >
+            <div className="flex w-full items-center justify-end gap-4">
+              <DialogClose asChild>
+                <Button type="button" variant="outline">
+                  Cancelar
+                </Button>
+              </DialogClose>
+              <Button type="submit">Salvar</Button>
+            </div>
+          </FormRender>
       </DialogContent>
     </Dialog>
   )

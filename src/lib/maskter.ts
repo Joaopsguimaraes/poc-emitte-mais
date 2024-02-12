@@ -44,6 +44,12 @@ export const telMask = masker({
   },
 })
 
+export const emailMask = masker({
+  masked: {
+    mask: /^\S*@?\S*$/,
+  },
+})
+
 export const zipCodeMask = masker({
   masked: {
     mask: '00000-000',
@@ -59,5 +65,12 @@ export const cnpjMask = masker({
 export const cpfMask = masker({
   masked: {
     mask: '000.000.000-00',
+  },
+})
+
+export const IEMask = masker({
+  // this mask must to be this structure: /^[A-Z]{2}-\d{6}$/ (e.g. SP-123456)
+  masked: {
+    mask: 'XX-000000',
   },
 })
