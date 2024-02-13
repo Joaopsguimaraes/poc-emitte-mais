@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-interface IResponseSearchCep {
+export interface IResponseSearchCep {
   cep: string
   state: string
   city: string

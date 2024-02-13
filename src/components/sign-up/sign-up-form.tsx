@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { SignUpFormSchema, signUpFormSchema } from '@/validations/sign-up'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm } from 'react-hook-form'

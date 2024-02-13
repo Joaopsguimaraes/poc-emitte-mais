@@ -1,6 +1,10 @@
+import { NUMBER_OF_CUSTOMERS_OPTIONS } from '@/constants/number-of-customers-options'
+import { SERVICE_PROVIDED_OPTIONS } from '@/constants/service-provided-options'
+import { SOURCE_INFORMATION_OPTIONS } from '@/constants/source-information-options'
+import { SignUpFormSchema } from '@/validations/sign-up'
+import { RadioGroupIndicator } from '@radix-ui/react-radio-group'
 import { Controller, useFormContext } from 'react-hook-form'
 
-import { cn } from '@/lib/utils'
 import { useSignUp } from '@/hooks/use-sign-up'
 
 import { Button } from '../ui/button'
@@ -11,10 +15,15 @@ import {
   FormLabel,
   FormMessage,
 } from '../ui/form'
-import { Input } from '../ui/input'
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
-import { RadioGroupIndicator } from '@radix-ui/react-radio-group'
-import { SignUpFormSchema } from '@/validations/sign-up'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select'
 
 export function StepAccountantDetails() {
   const form = useFormContext<SignUpFormSchema>()
@@ -36,15 +45,25 @@ export function StepAccountantDetails() {
             control={form.control}
             name="service_provided"
             render={({ field }) => (
-              <FormItem className="flex w-full flex-col gap-2">
+              <FormItem>
                 <FormLabel>Serviço fornecido</FormLabel>
                 <FormControl>
-                  <Input
-                    className={cn('h-12 bg-white dark:bg-black')}
-                    onChange={field.onChange}
-                    value={field.value}
-                    width="full"
-                  />
+                  <Select onValueChange={field.onChange}>
+                    <SelectTrigger className="h-12">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup className="max-h-52">
+                        {SERVICE_PROVIDED_OPTIONS.map((item, index) => {
+                          return (
+                            <SelectItem key={index} value={String(item.value)}>
+                              {item.label}
+                            </SelectItem>
+                          )
+                        })}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -54,15 +73,53 @@ export function StepAccountantDetails() {
             control={form.control}
             name="number_clients"
             render={({ field }) => (
-              <FormItem className="flex w-full flex-col gap-2">
+              <FormItem>
                 <FormLabel>Numero de clientes</FormLabel>
                 <FormControl>
-                  <Input
-                    className={cn('h-12 bg-white dark:bg-black')}
-                    onChange={field.onChange}
-                    value={field.value}
-                    width="full"
-                  />
+                  <Select onValueChange={field.onChange}>
+                    <SelectTrigger className="h-12">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup className="max-h-52">
+                        {NUMBER_OF_CUSTOMERS_OPTIONS.map((item, index) => {
+                          return (
+                            <SelectItem key={index} value={String(item.value)}>
+                              {item.label}
+                            </SelectItem>
+                          )
+                        })}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="source_information"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Como ficou sabendo do nosso serviço?</FormLabel>
+                <FormControl>
+                  <Select onValueChange={field.onChange}>
+                    <SelectTrigger className="h-12">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup className="max-h-52">
+                        {SOURCE_INFORMATION_OPTIONS.map((item, index) => {
+                          return (
+                            <SelectItem key={index} value={String(item.value)}>
+                              {item.label}
+                            </SelectItem>
+                          )
+                        })}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -77,21 +134,26 @@ export function StepAccountantDetails() {
                 onValueChange={field.onChange}
                 value={field.value}
               >
-                <div className={'flex w-full items-center justify-start gap-4'}>
-                  {[
-                    { label: 'Sim', value: 'true' },
-                    { label: 'Não', value: 'false' },
-                  ].map((item, index) => (
-                    <div
-                      className="my-2 flex w-full items-center justify-start gap-4 "
-                      key={index}
-                    >
-                      <RadioGroupItem value={item.value}>
-                        <RadioGroupIndicator />
-                      </RadioGroupItem>
-                      <span>{item.label}</span>
-                    </div>
-                  ))}
+                <div className="flex w-full flex-col items-start gap-1">
+                  <FormLabel>Atende MEI?</FormLabel>
+                  <div
+                    className={'flex w-full items-center justify-start gap-4'}
+                  >
+                    {[
+                      { label: 'Sim', value: 'true' },
+                      { label: 'Não', value: 'false' },
+                    ].map((item, index) => (
+                      <div
+                        className="my-2 flex w-full items-center justify-start gap-4 "
+                        key={index}
+                      >
+                        <RadioGroupItem value={item.value}>
+                          <RadioGroupIndicator />
+                        </RadioGroupItem>
+                        <span>{item.label}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </RadioGroup>
             )}
@@ -105,21 +167,26 @@ export function StepAccountantDetails() {
                 onValueChange={field.onChange}
                 value={field.value}
               >
-                <div className={'flex w-full items-center justify-start gap-4'}>
-                  {[
-                    { label: 'Sim', value: 'true' },
-                    { label: 'Não', value: 'false' },
-                  ].map((item, index) => (
-                    <div
-                      className="my-2 flex w-full items-center justify-start gap-4 "
-                      key={index}
-                    >
-                      <RadioGroupItem value={item.value}>
-                        <RadioGroupIndicator />
-                      </RadioGroupItem>
-                      <span>{item.label}</span>
-                    </div>
-                  ))}
+                <div className="flex w-full flex-col items-start gap-1">
+                  <FormLabel>Atende produtor rural?</FormLabel>
+                  <div
+                    className={'flex w-full items-center justify-start gap-4'}
+                  >
+                    {[
+                      { label: 'Sim', value: 'true' },
+                      { label: 'Não', value: 'false' },
+                    ].map((item, index) => (
+                      <div
+                        className="my-2 flex w-full items-center justify-start gap-4 "
+                        key={index}
+                      >
+                        <RadioGroupItem value={item.value}>
+                          <RadioGroupIndicator />
+                        </RadioGroupItem>
+                        <span>{item.label}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </RadioGroup>
             )}
@@ -133,49 +200,26 @@ export function StepAccountantDetails() {
                 onValueChange={field.onChange}
                 value={field.value}
               >
-                <div className={'flex w-full items-center justify-start gap-4'}>
-                  {[
-                    { label: 'Sim', value: 'true' },
-                    { label: 'Não', value: 'false' },
-                  ].map((item, index) => (
-                    <div
-                      className="my-2 flex w-full items-center justify-start gap-4 "
-                      key={index}
-                    >
-                      <RadioGroupItem value={item.value}>
-                        <RadioGroupIndicator />
-                      </RadioGroupItem>
-                      <span>{item.label}</span>
-                    </div>
-                  ))}
-                </div>
-              </RadioGroup>
-            )}
-          />
-          <Controller
-            control={form.control}
-            name="source_information"
-            render={({ field }) => (
-              <RadioGroup
-                onBlur={field.onBlur}
-                onValueChange={field.onChange}
-                value={field.value}
-              >
-                <div className={'flex w-full items-center justify-start gap-4'}>
-                  {[
-                    { label: 'Sim', value: 'true' },
-                    { label: 'Não', value: 'false' },
-                  ].map((item, index) => (
-                    <div
-                      className="my-2 flex w-full items-center justify-start gap-4 "
-                      key={index}
-                    >
-                      <RadioGroupItem value={item.value}>
-                        <RadioGroupIndicator />
-                      </RadioGroupItem>
-                      <span>{item.label}</span>
-                    </div>
-                  ))}
+                <div className="flex w-full flex-col items-start gap-1">
+                  <FormLabel>Responde pelo cliente?</FormLabel>
+                  <div
+                    className={'flex w-full items-center justify-start gap-4'}
+                  >
+                    {[
+                      { label: 'Sim', value: 'true' },
+                      { label: 'Não', value: 'false' },
+                    ].map((item, index) => (
+                      <div
+                        className="my-2 flex w-full items-center justify-start gap-4 "
+                        key={index}
+                      >
+                        <RadioGroupItem value={item.value}>
+                          <RadioGroupIndicator />
+                        </RadioGroupItem>
+                        <span>{item.label}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </RadioGroup>
             )}

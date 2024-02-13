@@ -1,5 +1,6 @@
-import { cnpjMask, emailMask, telMask } from "@/lib/maskter"
-import { z } from "zod"
+import { z } from 'zod'
+
+import { cnpjMask, emailMask, telMask } from '@/lib/maskter'
 
 export const signUpFormSchema = z.object({
   // step 1
@@ -26,7 +27,6 @@ export const signUpFormSchema = z.object({
   crc: z.string().min(3),
   // step 4
   address: z.object({
-    type: z.string(),
     zip: z.string(),
     street: z.string(),
     neighborhood: z.string(),

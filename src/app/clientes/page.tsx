@@ -2,15 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { DialogNewCustomer } from '@/components/customers/dialog-new-customer'
 import { ListCustomers } from '@/components/customers/list-customers'
 
-export default async function page() {
-  const result = await new Promise((resolve) => {
-    setTimeout(() => {
-      resolve('result')
-    }, 4000)
-  })
-
-  console.log(result)
-
+export default function page() {
   return (
     <div className="hidden flex-col md:flex">
       <div className="flex-1 space-y-4 p-8 pt-10">

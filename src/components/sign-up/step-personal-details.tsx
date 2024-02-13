@@ -77,6 +77,7 @@ export function StepPersonalDetails() {
                     onChange={(e) => field.onChange(telMask.onChange(e))}
                     value={field.value}
                     width="full"
+                    placeholder='(XX) XXXXX-XXXX'
                   />
                 </FormControl>
                 <FormMessage />
