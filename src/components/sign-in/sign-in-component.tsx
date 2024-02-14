@@ -7,6 +7,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { cn } from '@/lib/utils'
+import { useSignUp } from '@/hooks/use-sign-up'
 
 import { SignUpForm } from '../sign-up/sign-up-form'
 import { Button } from '../ui/button'
@@ -18,8 +19,6 @@ import {
   CardTitle,
 } from '../ui/card'
 import { Icons } from '../ui/icons'
-import { Input } from '../ui/input'
-import { Label } from '../ui/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
 
 const signInSchema = z.object({
@@ -32,10 +31,11 @@ type SignInForm = z.infer<typeof signInSchema>
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
+  const [isLoading, setIsLoading] = React.useState<boolean>(false)
   const form = useForm<SignInForm>({
     resolver: zodResolver(signInSchema),
   })
-  const [isLoading, setIsLoading] = React.useState<boolean>(false)
+  const { tabsTrigger } = useSignUp()
 
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault()
@@ -53,7 +53,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           <TabsTrigger value="sign-in">Entrar</TabsTrigger>
           <TabsTrigger value="sign-up">Cadastrar-se</TabsTrigger>
         </TabsList>
-        <TabsContent value="sign-in">
+        <TabsContent value={tabsTrigger}>
           <Card>
             <CardHeader>
               <CardTitle>Entre com seu email e senha</CardTitle>
@@ -101,8 +101,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             <CardContent className="space-y-2">
               <SignUpForm />
             </CardContent>
-            <CardFooter className="grid gap-1">
-            </CardFooter>
+            <CardFooter className="grid gap-1"></CardFooter>
           </Card>
         </TabsContent>
       </Tabs>

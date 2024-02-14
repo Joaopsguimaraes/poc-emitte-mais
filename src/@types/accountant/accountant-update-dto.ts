@@ -21,27 +21,13 @@ export interface AccountantUpdateDTO {
     state: string
     country: string
   }
-  serviceProvided?: 'ACCOUNTING' | 'BPO' | 'CONSULTANCY' | 'OTHERS'
-  numberClients?:
-    | 'ZERO_TO_NINETEEN'
-    | 'TWENTY_TO_FORTY_NINE'
-    | 'FIFTY_TO_NINETY_NINE'
-    | 'ONE_HUNDRED_TO_ONE_HUNDRED_AND_NINETY_NINE'
-    | 'TWO_HUNDRED_TO_TWO_HUNDRED_AND_NINETY_NINE'
-    | 'ABOVE_THREE_HUNDRED'
-
+  serviceProvided?: string
+  numberClients?: string
   serveMei?: boolean
   serveRuralProducers?: boolean
   indicatesCertificate?: boolean
   issuedByCustomers?: boolean
-  sourceInformation?:
-    | 'GOOGLE'
-    | 'SOCIAL_MEDIA'
-    | 'YOUTUBE'
-    | 'BLOG'
-    | 'EVENT'
-    | 'RECOMMENDATION'
-    
+  sourceInformation?: string
   password?: string
   validatedWhatsapp?: boolean
   partnerId?: string

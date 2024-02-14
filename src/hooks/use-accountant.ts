@@ -1,7 +1,6 @@
 import { AccountantCreateDTO } from '@/@types/accountant/accountant-create-dto'
 import { AccountantCreateResponse } from '@/@types/accountant/accountant-create-response'
 import { AccountantUpdateDTO } from '@/@types/accountant/accountant-update-dto'
-import { removeEmptyFields } from '@/utils/remove-empty-fields'
 import { create } from 'zustand'
 
 import { emitteMaisApi } from '@/lib/axios/emitte-mais-api'

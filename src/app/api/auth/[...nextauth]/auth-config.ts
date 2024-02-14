@@ -14,19 +14,13 @@ export const authOptions: AuthOptions = {
         password: { label: 'Senha', type: 'password' },
       },
       async authorize(credentials, req) {
-        // const response = await fetch('http://localhost:3000/api/auth/login', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify(credentials),
-        // })
+        const response = await fetch('http://localhost:3333/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(credentials),
+        })
 
-        // const user = await response.json()
-
-        const user = {
-          id: '1',
-          name: 'João Guimarães',
-          email: 'joao.guimaraes@email.com',
-        }
+        const user = await response.json()
 
         if (user) {
           return user

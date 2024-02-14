@@ -38,7 +38,7 @@ export const signUpFormSchema = z.object({
   // step 5
   service_provided: z.string(),
   number_clients: z.string(),
-  serve_mei: z.string(),
+  serve_mei: z.string().optional(),
   serve_rural_producers: z.string(),
   indicates_certificate: z.string(),
   issued_by_customers: z.string(),

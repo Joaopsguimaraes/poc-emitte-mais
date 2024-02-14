@@ -2,7 +2,6 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { AccountantUpdateDTO } from '@/@types/accountant/accountant-update-dto'
-import { removeEmptyFields } from '@/utils/remove-empty-fields'
 import { SignUpFormSchema } from '@/validations/sign-up'
 import { useMutation } from '@tanstack/react-query'
 import { useFormContext } from 'react-hook-form'
