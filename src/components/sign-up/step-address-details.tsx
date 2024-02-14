@@ -1,13 +1,17 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
+import { AccountantUpdateDTO } from '@/@types/accountant/accountant-update-dto'
 import { SignUpFormSchema } from '@/validations/sign-up'
+import { useMutation } from '@tanstack/react-query'
 import { useFormContext } from 'react-hook-form'
 
 import { brasilApi } from '@/lib/axios/brasil-api'
 import { findFromZipCode } from '@/lib/find-from-zip-code'
 import { zipCodeMask } from '@/lib/maskter'
 import { cn } from '@/lib/utils'
+import { useAccountant } from '@/hooks/use-accountant'
 import { useSignUp } from '@/hooks/use-sign-up'
 
 import { Button } from '../ui/button'
@@ -20,11 +24,42 @@ import {
 } from '../ui/form'
 import { Input } from '../ui/input'
 import { Skeleton } from '../ui/skeleton'
+import { useToast } from '../ui/use-toast'
 
 export function StepAddressDetails() {
-  const form = useFormContext<SignUpFormSchema>()
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const { toast } = useToast()
+  const searchParams = useSearchParams()
   const { activeStep, setActiveStep } = useSignUp()
+  const [isLoading, setIsLoading] = useState(false)
+  const { getValues, control, setValue } = useFormContext<SignUpFormSchema>()
+  const { updateAccountant } = useAccountant()
+  const { mutateAsync } = useMutation({
+    mutationFn: handleSubmitStep,
+    onSuccess: handleNextStep,
+    onError: (error: any) => {
+      toast({
+        title: 'Erro ao informar o endereço',
+        description: Array.isArray(error) ? error[0].message : error.message,
+        variant: 'destructive',
+      })
+    },
+  })
+
+  async function handleSubmitStep() {
+    const dto: AccountantUpdateDTO = {
+      step: activeStep + 1,
+      address: {
+        zip: getValues('address.zip'),
+        street: getValues('address.street'),
+        neighborhood: getValues('address.neighborhood'),
+        city: getValues('address.city'),
+        state: getValues('address.state'),
+        country: getValues('address.country'),
+      },
+    }
+
+    await updateAccountant(searchParams.get('accountantId') as string, dto)
+  }
 
   function handleNextStep() {
     setActiveStep(activeStep + 1)
@@ -45,15 +80,14 @@ export function StepAddressDetails() {
       if (value.length > 8) {
         const { data } = await brasilApi(value)
 
-        form.setValue('address.street', data.street)
-        form.setValue('address.neighborhood', data.neighborhood)
-        form.setValue('address.city', data.city)
-        form.setValue('address.state', data.state)
-        form.setValue('address.country', 'Brasil')
+        setValue('address.street', data.street)
+        setValue('address.neighborhood', data.neighborhood)
+        setValue('address.city', data.city)
+        setValue('address.state', data.state)
+        setValue('address.country', 'Brasil')
       }
     } catch (error) {
       setIsLoading(false)
-      console.log(error)
     } finally {
       setIsLoading(false)
     }
@@ -64,7 +98,7 @@ export function StepAddressDetails() {
       <div className="my-2 grid gap-5">
         <div className="flex flex-col space-y-2">
           <FormField
-            control={form.control}
+            control={control}
             name="address.zip"
             render={({ field }) => (
               <FormItem className="flex w-full flex-col gap-2">
@@ -91,7 +125,7 @@ export function StepAddressDetails() {
           ) : (
             <>
               <FormField
-                control={form.control}
+                control={control}
                 name="address.street"
                 render={({ field }) => (
                   <FormItem className="flex w-full flex-col gap-2">
@@ -109,7 +143,7 @@ export function StepAddressDetails() {
                 )}
               />
               <FormField
-                control={form.control}
+                control={control}
                 name="address.neighborhood"
                 render={({ field }) => (
                   <FormItem className="flex w-full flex-col gap-2">
@@ -127,7 +161,7 @@ export function StepAddressDetails() {
                 )}
               />
               <FormField
-                control={form.control}
+                control={control}
                 name="address.city"
                 render={({ field }) => (
                   <FormItem className="flex w-full flex-col gap-2">
@@ -145,7 +179,7 @@ export function StepAddressDetails() {
                 )}
               />
               <FormField
-                control={form.control}
+                control={control}
                 name="address.state"
                 render={({ field }) => (
                   <FormItem className="flex w-full flex-col gap-2">
@@ -163,7 +197,7 @@ export function StepAddressDetails() {
                 )}
               />
               <FormField
-                control={form.control}
+                control={control}
                 name="address.country"
                 render={({ field }) => (
                   <FormItem className="flex w-full flex-col gap-2">
@@ -182,7 +216,7 @@ export function StepAddressDetails() {
               />
             </>
           )}
-          <Button type="button" onClick={handleNextStep}>
+          <Button type="button" onClick={() => mutateAsync()}>
             Continuar
           </Button>
           {activeStep > 0 && (

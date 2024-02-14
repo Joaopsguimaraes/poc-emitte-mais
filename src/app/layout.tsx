@@ -1,5 +1,3 @@
-import { Poppins } from 'next/font/google'
-
 import './globals.css'
 
 import { Content } from '@/layout/content'
@@ -7,6 +5,7 @@ import { Header } from '@/layout/header'
 import { Sidebar } from '@/layout/sidebar'
 import ThemeContext from '@/providers'
 import SessionProvider from '@/providers/session-provider'
+import { TanstackQueryProvider } from '@/providers/tanstack-query'
 import { getServerSession } from 'next-auth'
 
 import { fontSans } from '@/lib/font'
@@ -35,18 +34,28 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           )}
         >
           <SessionProvider session={session}>
-            {session?.user ? (
-              <ThemeContext>
-                <Sidebar />
-                <Header />
-                <Content>{children}</Content>
-                <TailwindIndicator />
-                <Toaster />
-                <Sonner />
-              </ThemeContext>
-            ) : (
-              <ThemeContext>{children}</ThemeContext>
-            )}
+            <TanstackQueryProvider>
+              {session?.user ? (
+                <ThemeContext>
+                  <Sidebar />
+                  <Header />
+                  <Content>{children}</Content>
+                  <TailwindIndicator />
+                  <Toaster />
+                  <Sonner />
+                </ThemeContext>
+              ) : (
+                // <ThemeContext>
+                //   <Sidebar />
+                //   <Header />
+                //   <Content>{children}</Content>
+                //   <TailwindIndicator />
+                //   <Toaster />
+                //   <Sonner />
+                // </ThemeContext>
+                <ThemeContext>{children}</ThemeContext>
+              )}
+            </TanstackQueryProvider>
           </SessionProvider>
         </body>
       </html>

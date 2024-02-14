@@ -20,11 +20,12 @@ export function SignUpForm() {
   const { activeStep } = useSignUp()
   const form = useForm<SignUpFormSchema>({
     resolver: zodResolver(signUpFormSchema),
+    defaultValues: {
+      validationCode: '',
+    },
   })
 
-  function onSubmit(data: any) {
-    console.log(data)
-  }
+  function onSubmit(data: SignUpFormSchema) {}
 
   return (
     <ol className="w-full space-y-4">

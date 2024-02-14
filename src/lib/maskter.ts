@@ -71,6 +71,6 @@ export const cpfMask = masker({
 export const IEMask = masker({
   // this mask must to be this structure: /^[A-Z]{2}-\d{6}$/ (e.g. SP-123456)
   masked: {
-    mask: 'XX-000000',
+    mask: 'GO-000000',
   },
 })

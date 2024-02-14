@@ -4,7 +4,8 @@ import { cnpjMask, emailMask, telMask } from '@/lib/maskter'
 
 export const signUpFormSchema = z.object({
   // step 1
-  first_name: z.string({}).min(3),
+  firstName: z.string({}).min(3),
+  lastName: z.string({}).optional(),
   email: z
     .string()
     .email()
@@ -14,7 +15,7 @@ export const signUpFormSchema = z.object({
     .min(11)
     .transform((v) => telMask.onChange(v)),
   // step 2
-  validation_code: z.string().min(6),
+  validationCode: z.string().min(6),
   // step 3
   document_type: z.string().min(3),
   document_id: z

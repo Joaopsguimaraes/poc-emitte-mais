@@ -34,7 +34,7 @@ const RadioGroupItem = React.forwardRef<
       {...props}
     >
       <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
-        <CheckIcon className="fill-primary size-3.5" />
+        <div className='size-2.5 rounded-full bg-primary'/>
       </RadioGroupPrimitive.Indicator>
     </RadioGroupPrimitive.Item>
   )

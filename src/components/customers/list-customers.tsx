@@ -5,9 +5,13 @@ import { DataTableAppliedFilters } from '@/@types/data-table-applied-filters'
 import { DataTable } from '@/shared/data-table'
 import { DataTableToolbarExport } from '@/shared/data-table/data-table-toolbar-export'
 import { ColumnDef } from '@tanstack/react-table'
+import { EyeIcon } from 'lucide-react'
 import { z } from 'zod'
 
 import { cnpjMask } from '@/lib/maskter'
+
+import { Badge } from '../ui/badge'
+import { Button } from '../ui/button'
 
 const customersListSchema = z.object({
   id: z.string(),
@@ -59,6 +63,22 @@ const data: CustomersListSchema[] = [
     status: 'Ativo',
   },
 ]
+
+const handleFormatRealCurrency = (value: number) => {
+  return value.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  })
+}
+
+const handleFormatBrazilianDate = (value: string) => {
+  const date = new Date(value)
+  return Intl.DateTimeFormat('pt-BR', {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+  }).format(date)
+}
 
 export function ListCustomers() {
   const searchParams = useSearchParams()
@@ -118,14 +138,35 @@ export function ListCustomers() {
     {
       accessorKey: 'dueCertificate',
       header: 'Vencimento do certificado',
+      cell: (row) => (
+        <span>
+          {handleFormatBrazilianDate(row.row.original.dueCertificate)}
+        </span>
+      ),
     },
     {
       accessorKey: 'credits',
       header: 'Créditos',
+      cell: (row) => (
+        <span>{handleFormatRealCurrency(row.row.original.credits)}</span>
+      ),
     },
     {
       accessorKey: 'status',
       header: 'Status',
+      cell: (row) => (
+        <Badge variant="secondary">{row.row.original.status}</Badge>
+      ),
+    },
+    {
+      accessorKey: 'actions',
+      header: 'Ações',
+      cell: () => (
+        <Button variant="ghost" size="icon">
+          <EyeIcon className="text-primary size-5" />
+          <span className="sr-only">Editar</span>
+        </Button>
+      ),
     },
   ]
 

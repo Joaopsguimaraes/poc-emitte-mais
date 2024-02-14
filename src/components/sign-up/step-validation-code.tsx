@@ -1,7 +1,14 @@
+'use client'
+
+import { useRouter, useSearchParams } from 'next/navigation'
+import { AccountantUpdateDTO } from '@/@types/accountant/accountant-update-dto'
+import { removeEmptyFields } from '@/utils/remove-empty-fields'
 import { SignUpFormSchema } from '@/validations/sign-up'
+import { useMutation } from '@tanstack/react-query'
 import { useFormContext } from 'react-hook-form'
 
 import { cn } from '@/lib/utils'
+import { useAccountant } from '@/hooks/use-accountant'
 import { useSignUp } from '@/hooks/use-sign-up'
 
 import { Button } from '../ui/button'
@@ -13,17 +20,51 @@ import {
   FormMessage,
 } from '../ui/form'
 import { Input } from '../ui/input'
+import { useToast } from '../ui/use-toast'
 
 export function StepValidationCode() {
-  const form = useFormContext<SignUpFormSchema>()
+  const router = useRouter()
+  const { toast } = useToast()
+  const searchParams = useSearchParams()
+  const { updateAccountant } = useAccountant()
   const { activeStep, setActiveStep } = useSignUp()
+  const { getValues, control } = useFormContext<SignUpFormSchema>()
+  const { mutateAsync } = useMutation({
+    mutationFn: handleSubmitStep,
+    onSuccess: handleNextStep,
+    onError: (error: any) => {
+      toast({
+        title: 'Erro ao validar o codigo',
+        description: Array.isArray(error) ? error[0].message : error.message,
+        variant: 'destructive',
+      })
+    },
+  })
+
+  async function handleSubmitStep() {
+    const dto: AccountantUpdateDTO = {
+      step: activeStep + 1,
+      validationCode: getValues('validationCode'),
+    }
+
+    await updateAccountant(searchParams.get('accountantId') as string, dto)
+  }
 
   function handleNextStep() {
+    toast({
+      title: 'Codigo validado com sucesso',
+      variant: 'default',
+    })
+
     setActiveStep(activeStep + 1)
   }
 
   function handlePreviousStep() {
     setActiveStep(activeStep - 1)
+
+    const newParams = new URLSearchParams(searchParams)
+    newParams.delete('accountantId')
+    router.push(`/${newParams.toString()}`)
   }
 
   return (
@@ -31,8 +72,8 @@ export function StepValidationCode() {
       <div className="my-2 grid gap-5">
         <div className="flex flex-col space-y-2">
           <FormField
-            control={form.control}
-            name="validation_code"
+            control={control}
+            name="validationCode"
             render={({ field }) => (
               <FormItem className="flex w-full flex-col gap-2">
                 <FormLabel>Código de validação</FormLabel>
@@ -48,7 +89,7 @@ export function StepValidationCode() {
               </FormItem>
             )}
           />
-          <Button type="button" onClick={handleNextStep}>
+          <Button type="button" onClick={() => mutateAsync()}>
             Continuar
           </Button>
           {activeStep > 0 && (

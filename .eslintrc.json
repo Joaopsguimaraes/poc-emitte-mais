@@ -4,36 +4,31 @@
   "extends": [
     "next/core-web-vitals",
     "prettier",
-    "plugin:tailwindcss/recommended"
+    "@tanstack/query",
+    "plugin:tailwindcss/recommended",
+    "plugin:@tanstack/eslint-plugin-query/recommended"
   ],
-  "plugins": [
-    "tailwindcss"
-  ],
+  "plugins": ["tailwindcss"],
   "rules": {
     "@next/next/no-html-link-for-pages": "off",
     "tailwindcss/no-custom-classname": "off",
-    "tailwindcss/classnames-order": "error"
+    "tailwindcss/classnames-order": "error",
+    "@tanstack/query/exhaustive-deps": "error",
+    "@tanstack/query/no-rest-destructuring": "warn",
+    "@tanstack/query/stable-query-client": "error"
   },
   "settings": {
     "tailwindcss": {
-      "callees": [
-        "cn",
-        "cva"
-      ],
+      "callees": ["cn", "cva"],
       "config": "tailwind.config.cjs"
     },
     "next": {
-      "rootDir": [
-        "src/app/*/"
-      ]
+      "rootDir": ["src/app/*/"]
     }
   },
   "overrides": [
     {
-      "files": [
-        "*.ts",
-        "*.tsx"
-      ],
+      "files": ["*.ts", "*.tsx"],
       "parser": "@typescript-eslint/parser"
     }
   ]

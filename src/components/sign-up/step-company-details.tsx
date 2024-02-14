@@ -1,9 +1,13 @@
+import { useSearchParams } from 'next/navigation'
+import { AccountantUpdateDTO } from '@/@types/accountant/accountant-update-dto'
 import { DocumentType, documentTypeOptions } from '@/constants/document-type'
 import { SignUpFormSchema } from '@/validations/sign-up'
+import { useMutation } from '@tanstack/react-query'
 import { useFormContext } from 'react-hook-form'
 
 import { cnpjMask, cpfMask, IEMask } from '@/lib/maskter'
 import { cn } from '@/lib/utils'
+import { useAccountant } from '@/hooks/use-accountant'
 import { useSignUp } from '@/hooks/use-sign-up'
 
 import { Button } from '../ui/button'
@@ -23,12 +27,46 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../ui/select'
+import { useToast } from '../ui/use-toast'
 
 export function StepCompanyDetails() {
-  const form = useFormContext<SignUpFormSchema>()
+  const { toast } = useToast()
+  const searchParams = useSearchParams()
+  const { control, getValues } = useFormContext<SignUpFormSchema>()
   const { activeStep, setActiveStep } = useSignUp()
+  const { updateAccountant } = useAccountant()
+  const { mutateAsync } = useMutation({
+    mutationFn: handleSubmitStep,
+    onSuccess: handleNextStep,
+    onError: (error: any) => {
+      toast({
+        title: 'Erro ao informar os dados da empresa',
+        description: Array.isArray(error) ? error[0].message : error.message,
+        variant: 'destructive',
+      })
+    },
+  })
+
+  async function handleSubmitStep() {
+    const dto: AccountantUpdateDTO = {
+      step: activeStep + 1,
+      documentType: getValues('document_type'),
+      documentId: getValues('document_id'),
+      companyName: getValues('company_name'),
+      tradingName: getValues('trading_name'),
+      jobPosition: getValues('job_position'),
+      crc: getValues('crc'),
+    }
+
+    await updateAccountant(searchParams.get('accountantId') as string, dto)
+  }
 
   function handleNextStep() {
+    toast({
+      title: 'Dados da empresa informados com sucesso',
+      variant: 'default',
+    })
+
     setActiveStep(activeStep + 1)
   }
 
@@ -41,7 +79,7 @@ export function StepCompanyDetails() {
       <div className="my-2 grid gap-5">
         <div className="flex flex-col space-y-2">
           <FormField
-            control={form.control}
+            control={control}
             name="document_type"
             render={({ field }) => (
               <FormItem>
@@ -71,7 +109,7 @@ export function StepCompanyDetails() {
             )}
           />
           <FormField
-            control={form.control}
+            control={control}
             name="document_id"
             render={({ field }) => (
               <FormItem className="flex w-full flex-col gap-2">
@@ -80,8 +118,7 @@ export function StepCompanyDetails() {
                   <Input
                     className={cn('h-12 bg-white dark:bg-black')}
                     onChange={(e) => {
-                      form.watch('document_type') ===
-                      DocumentType.NATURAL_PERSON
+                      getValues('document_type') === DocumentType.NATURAL_PERSON
                         ? field.onChange(cpfMask.onChange(e))
                         : field.onChange(cnpjMask.onChange(e))
                     }}
@@ -94,7 +131,7 @@ export function StepCompanyDetails() {
             )}
           />
           <FormField
-            control={form.control}
+            control={control}
             name="company_name"
             render={({ field }) => (
               <FormItem className="flex w-full flex-col gap-2">
@@ -112,7 +149,7 @@ export function StepCompanyDetails() {
             )}
           />
           <FormField
-            control={form.control}
+            control={control}
             name="trading_name"
             render={({ field }) => (
               <FormItem className="flex w-full flex-col gap-2">
@@ -130,7 +167,7 @@ export function StepCompanyDetails() {
             )}
           />
           <FormField
-            control={form.control}
+            control={control}
             name="job_position"
             render={({ field }) => (
               <FormItem className="flex w-full flex-col gap-2">
@@ -148,7 +185,7 @@ export function StepCompanyDetails() {
             )}
           />
           <FormField
-            control={form.control}
+            control={control}
             name="crc"
             render={({ field }) => (
               <FormItem className="flex w-full flex-col gap-2">
@@ -166,7 +203,7 @@ export function StepCompanyDetails() {
               </FormItem>
             )}
           />
-          <Button type="button" onClick={handleNextStep}>
+          <Button type="button" onClick={() => mutateAsync()}>
             Continuar
           </Button>
           {activeStep > 0 && (
