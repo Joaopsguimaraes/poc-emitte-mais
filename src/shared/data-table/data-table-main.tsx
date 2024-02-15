@@ -49,7 +49,7 @@ export function DataTableMain() {
               <TableRow
                 data-state={row.getIsSelected() ? 'selected' : null}
                 key={row.id}
-                className="text-foreground hover:bg-accent py-2 transition-colors duration-200 ease-in-out"
+                className="text-foreground hover:bg-accent py-4 transition-colors duration-200 ease-in-out"
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell className="text-center font-sans" key={cell.id}>

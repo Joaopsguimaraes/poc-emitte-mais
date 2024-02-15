@@ -37,17 +37,12 @@ export const sidebarConfig: SidebarConfig = {
   shortcuts: [
     {
       completeKey: 'CTRL + H',
-      href: '/',
+      href: Routes.DASHBOARD,
       partialKey: 'h',
       title: 'Home',
     },
   ],
   sidebarNav: [
-    {
-      href: Routes.HOME,
-      icon: <HomeIcon className="size-4" />,
-      title: 'Inicio',
-    },
     {
       href: Routes.DASHBOARD,
       icon: <BarChartIcon className="size-4" />,

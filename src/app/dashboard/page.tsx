@@ -12,7 +12,7 @@ export default function DashboardPage() {
         <div className="hidden flex-col md:flex">
           <div className="flex-1 space-y-4 p-8 pt-6">
             <div className="flex w-full items-center justify-between space-y-4">
-              <h2 className="text-secondary text-2xl font-bold tracking-tight">Visão geral</h2>
+              <h2 className="text-primary text-2xl font-bold tracking-tight">Visão geral</h2>
               <TabsList className="bg-primary flex items-center justify-end p-2">
                 <TabsTrigger value="account">Notas Fiscais</TabsTrigger>
                 <TabsTrigger value="password">Gestão</TabsTrigger>

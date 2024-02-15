@@ -8,7 +8,7 @@ export default {
       center: true,
       padding: {
         DEFAULT: '1rem',
-        lg: '4rem',
+        lg: '2rem',
       },
       screens: {
         '2xl': '1980px',
@@ -27,6 +27,10 @@ export default {
       secondary: {
         DEFAULT: 'hsl(var(--secondary))',
         foreground: 'hsl(var(--secondary-foreground))',
+      },
+      tertiary: {
+        DEFAULT: 'hsl(var(--tertiary))',
+        foreground: 'hsl(var(--tertiary-foreground))',
       },
       destructive: {
         DEFAULT: 'hsl(var(--destructive))',

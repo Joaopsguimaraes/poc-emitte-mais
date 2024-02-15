@@ -136,7 +136,7 @@ export function StepPassword() {
           <Button type="button" onClick={() => mutateAsync()}>
             Cadastrar
           </Button>
-          <Button type="button" onClick={handlePreviousStep}>
+          <Button type="button" variant="outline" onClick={handlePreviousStep}>
             Voltar
           </Button>
         </div>

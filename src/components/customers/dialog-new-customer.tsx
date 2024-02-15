@@ -1,59 +1,62 @@
 'use client'
 
-import { useEffect } from 'react'
-import { FormRender } from '@/shared/form/FormRender'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
+import { useState } from 'react'
+import { Check, Info, MapPin } from 'lucide-react'
 
-import {
-  newCustomerSchema,
-  NewCustomerType,
-  useNewCustomer,
-} from '@/hooks/use-new-customer'
+import { cn } from '@/lib/utils'
 
 import { Button } from '../ui/button'
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogTitle,
-  DialogTrigger,
-} from '../ui/dialog'
-import { ScrollArea, ScrollBar } from '../ui/scroll-area'
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '../ui/dialog'
+import { RenderCreateCustomerSteps } from './render-create-customer-steps'
+
+const steps = [
+  {
+    title: 'Informações básicas',
+    icon: <Info className="size-4" />,
+  },
+  {
+    title: 'Endereço',
+    icon: <MapPin className="size-4" />,
+  },
+  {
+    title: 'Finalizar cadastro',
+    icon: <Check className="size-4" />,
+  },
+]
 
 export function DialogNewCustomer() {
-  const form = useForm<NewCustomerType>({
-    resolver: zodResolver(newCustomerSchema),
-    defaultValues: {
-      customerType: 'juridica',
-    },
-  })
-  const { fields } = useNewCustomer(form)
-
-  function onSubmit(data: NewCustomerType) {}
+  const [activeStep, setActiveStep] = useState(0)
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Novo cliente</Button>
+        <Button variant="default" type="button">
+          Novo cliente
+        </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-screen-sm md:max-w-screen-sm lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-xl">
-        <DialogTitle className="my-2">Novo cliente</DialogTitle>
-        <FormRender<NewCustomerType>
-          constant={fields}
-          form={form}
-          onSubmit={onSubmit}
-        >
-          <div className="flex w-full items-center justify-end gap-4">
-            <DialogClose asChild>
-              <Button type="button" variant="outline">
-                Cancelar
-              </Button>
-            </DialogClose>
-            <Button type="submit">Salvar</Button>
-          </div>
-        </FormRender>
+      <DialogContent className="max-w-[1100px]">
+        <DialogTitle className="flex items-center w-full my-2">
+          <ol className="flex w-full items-center justify-between">
+            {steps.map((step, index) => (
+              <li
+                key={index}
+                className={cn(
+                  'flex w-48 items-center gap-2 text-sm',
+                  activeStep === index
+                    ? 'font-bold text-primary'
+                    : 'font-normal text-primary/30'
+                )}
+              >
+                {step.icon}
+                <span>{step.title}</span>
+              </li>
+            ))}
+          </ol>
+        </DialogTitle>
+        <RenderCreateCustomerSteps
+          activeStep={activeStep}
+          setActiveStep={setActiveStep}
+        />
       </DialogContent>
     </Dialog>
   )

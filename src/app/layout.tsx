@@ -23,6 +23,10 @@ interface RootLayoutProps {
 export default async function RootLayout({ children }: RootLayoutProps) {
   const session = await getServerSession(authOptions)
 
+  if (session?.user) {
+    console.log('session', session.user)
+  }
+
   return (
     <>
       <html lang="en" suppressHydrationWarning>
@@ -45,14 +49,6 @@ export default async function RootLayout({ children }: RootLayoutProps) {
                   <Sonner />
                 </ThemeContext>
               ) : (
-                // <ThemeContext>
-                //   <Sidebar />
-                //   <Header />
-                //   <Content>{children}</Content>
-                //   <TailwindIndicator />
-                //   <Toaster />
-                //   <Sonner />
-                // </ThemeContext>
                 <ThemeContext>{children}</ThemeContext>
               )}
             </TanstackQueryProvider>

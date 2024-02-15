@@ -4,81 +4,102 @@ import { useSearchParams } from 'next/navigation'
 import { DataTableAppliedFilters } from '@/@types/data-table-applied-filters'
 import { DataTable } from '@/shared/data-table'
 import { DataTableToolbarExport } from '@/shared/data-table/data-table-toolbar-export'
+import { CustomersListSchema } from '@/validations/customer-list'
 import { ColumnDef } from '@tanstack/react-table'
-import { EyeIcon } from 'lucide-react'
-import { z } from 'zod'
+import {
+  AlertCircle,
+  CheckCircle,
+  EyeIcon,
+  Plus,
+  PlusCircle,
+  XCircle,
+} from 'lucide-react'
 
 import { cnpjMask } from '@/lib/maskter'
+import { cn } from '@/lib/utils'
 
+import { Avatar, AvatarFallback } from '../ui/avatar'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
 
-const customersListSchema = z.object({
-  id: z.string(),
-  document: z.string(),
-  fullName: z.string(),
-  shortName: z.string(),
-  dueCertificate: z.string(),
-  credits: z.number(),
-  status: z.string(),
-})
+const renderStatusBadge = (status: string) => {
+  const statusMap = {
+    Ativo: {
+      color:
+        'bg-primary text-primary-foreground border border-primary hover:bg-primary hover:border-primary',
+      icon: <CheckCircle className="size-3" />,
+    },
+    Bloqueado: {
+      color:
+        'bg-secondary text-secondary-foreground border border-secondary hover:bg-secondary hover:border-secondary',
+      icon: <AlertCircle className="size-3" />,
+    },
+    Inativo: {
+      color:
+        'bg-tertiary text-tertiary-foreground border border-tertiary hover:bg-tertiary hover:border-tertiary',
+      icon: <XCircle className="size-3" />,
+    },
+  }
 
-export type CustomersListSchema = z.infer<typeof customersListSchema>
+  return (
+    <Badge
+      className={cn(
+        //@ts-ignore
+        statusMap[status].color,
+        'shadow-none border p-2 min-w-[100px] justify-center items-center'
+      )}
+    >
+      {
+        //@ts-ignore
+        statusMap[status].icon
+      }
+      {status}
+    </Badge>
+  )
+}
 
 const data: CustomersListSchema[] = [
   {
     id: '1',
     document: '69840156000187',
     fullName: 'Empresa A',
-    shortName: 'A',
-    dueCertificate: '2021-12-31',
-    credits: 10000,
+    totalInvoices: 11542,
+    modules: ['NFe', 'NFCe', 'MDFe', 'CTe', 'NFSe'],
     status: 'Ativo',
   },
   {
     id: '2',
     document: '68065362000102',
     fullName: 'Empresa B',
-    shortName: 'B',
-    dueCertificate: '2021-12-31',
-    credits: 10000,
-    status: 'Ativo',
+    totalInvoices: 998,
+    modules: ['NFe', 'NFCe'],
+    status: 'Bloqueado',
   },
   {
     id: '3',
     document: '81574599000179',
     fullName: 'Empresa C',
-    shortName: 'C',
-    dueCertificate: '2021-12-31',
-    credits: 10000,
-    status: 'Ativo',
+    totalInvoices: 784,
+    modules: ['NFe', 'NFCe'],
+    status: 'Bloqueado',
   },
   {
     id: '4',
     document: '28548794000141',
     fullName: 'Empresa D',
-    shortName: 'D',
-    dueCertificate: '2021-12-31',
-    credits: 10000,
-    status: 'Ativo',
+    totalInvoices: 2147,
+    modules: ['NFe', 'NFCe'],
+    status: 'Inativo',
+  },
+  {
+    id: '5',
+    document: '28548794000142',
+    fullName: 'Empresa E',
+    totalInvoices: 665,
+    modules: ['NFe', 'NFCe'],
+    status: 'Inativo',
   },
 ]
-
-const handleFormatRealCurrency = (value: number) => {
-  return value.toLocaleString('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-  })
-}
-
-const handleFormatBrazilianDate = (value: string) => {
-  const date = new Date(value)
-  return Intl.DateTimeFormat('pt-BR', {
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-  }).format(date)
-}
 
 export function ListCustomers() {
   const searchParams = useSearchParams()
@@ -100,69 +121,88 @@ export function ListCustomers() {
       value: searchParams.get('fullName') ?? '',
     },
     {
-      id: 'shortName',
-      title: 'Fantasia',
-      value: searchParams.get('shortName') ?? '',
-    },
-    {
-      id: 'dueCertificate',
-      title: 'Vencimento do certificado',
-      value: searchParams.get('dueCertificate') ?? '',
-    },
-    {
-      id: 'credits',
+      id: 'totalInvoices',
       title: 'Créditos',
-      value: searchParams.get('credits') ?? '',
+      value: searchParams.get('totalInvoices') ?? '',
     },
     {
       id: 'status',
       title: 'Status',
       value: searchParams.get('status') ?? '',
     },
+    {
+      id: 'modules',
+      title: 'Módulos',
+      value: searchParams.get('modules') ?? '',
+    },
   ]
 
   const columns: ColumnDef<CustomersListSchema>[] = [
     {
       accessorKey: 'document',
-      header: 'CNPJ',
-      cell: (row) => <span>{cnpjMask.mask(row.row.original.document)}</span>,
-    },
-    {
-      accessorKey: 'fullName',
-      header: 'Razão Social',
-    },
-    {
-      accessorKey: 'shortName',
-      header: 'Fantasia',
-    },
-    {
-      accessorKey: 'dueCertificate',
-      header: 'Vencimento do certificado',
-      cell: (row) => (
-        <span>
-          {handleFormatBrazilianDate(row.row.original.dueCertificate)}
-        </span>
-      ),
-    },
-    {
-      accessorKey: 'credits',
-      header: 'Créditos',
-      cell: (row) => (
-        <span>{handleFormatRealCurrency(row.row.original.credits)}</span>
-      ),
+      header: 'CNPJ / Razão social',
+      cell: (row) => {
+        return (
+          <div className="w-[300px] flex gap-2 items-center">
+            <Avatar>
+              <AvatarFallback>
+                {row.row.original.fullName.charAt(0)}
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col w-full items-start">
+              <span className="font-medium text-primary">
+                {row.row.original.fullName}
+              </span>
+              <span className="text-[#718EBF] text-sm">
+                {cnpjMask.mask(row.row.original.document)}
+              </span>
+            </div>
+          </div>
+        )
+      },
     },
     {
       accessorKey: 'status',
       header: 'Status',
-      cell: (row) => (
-        <Badge variant="secondary">{row.row.original.status}</Badge>
+      cell: ({ row }) => (
+        <div className="flex gap-2 justify-center items-center">
+          {renderStatusBadge(row.original.status)}
+        </div>
       ),
     },
+    {
+      accessorKey: 'modules',
+      header: 'Módulos',
+      cell: ({ row }) => (
+        <div>
+          {row.original.modules.slice(0, 2).map((module) => (
+            <Badge key={module} variant="tertiary" className="mr-1">
+              {module}
+            </Badge>
+          ))}
+          {row.original.modules.length > 2 && (
+            <Badge variant="tertiary">
+              <span
+                className={cn('text-xs')}
+              >{`...+${row.original.modules.length}`}</span>
+            </Badge>
+          )}
+        </div>
+      ),
+    },
+    {
+      accessorKey: 'totalInvoices',
+      header: 'Notas emitidas',
+      cell: (row) => (
+        <span className="text-[#718EBF]">{row.row.original.totalInvoices}</span>
+      ),
+    },
+
     {
       accessorKey: 'actions',
       header: 'Ações',
       cell: () => (
-        <Button variant="ghost" size="icon">
+        <Button className="size-8 p-0" size="icon" variant="ghost">
           <EyeIcon className="text-primary size-5" />
           <span className="sr-only">Editar</span>
         </Button>

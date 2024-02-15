@@ -1,8 +1,10 @@
 'use client'
 
 import * as React from 'react'
+import { useRouter } from 'next/navigation'
 import { FormInput } from '@/shared/form/FormInput'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { signIn } from 'next-auth/react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -32,18 +34,30 @@ interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
+  const router = useRouter()
   const form = useForm<SignInForm>({
     resolver: zodResolver(signInSchema),
   })
-  const { tabsTrigger } = useSignUp()
 
-  async function onSubmit(event: React.SyntheticEvent) {
-    event.preventDefault()
-    setIsLoading(true)
+  async function onSubmit(data: SignInForm) {
+    try {
+      setIsLoading(true)
 
-    setTimeout(() => {
+      await signIn('credentials', {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+      }).then((response) => {
+        if (response?.ok) {
+          router.replace('/dashboard')
+        }
+      })
+    } catch (error) {
+      console.error(error)
       setIsLoading(false)
-    }, 3000)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -53,14 +67,14 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           <TabsTrigger value="sign-in">Entrar</TabsTrigger>
           <TabsTrigger value="sign-up">Cadastrar-se</TabsTrigger>
         </TabsList>
-        <TabsContent value={tabsTrigger}>
+        <TabsContent value="sign-in">
           <Card>
             <CardHeader>
               <CardTitle>Entre com seu email e senha</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
               <FormProvider {...form}>
-                <form onSubmit={onSubmit}>
+                <form onSubmit={form.handleSubmit(onSubmit)}>
                   <div className="grid gap-5">
                     <FormInput
                       label="E-mail"
@@ -71,20 +85,20 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                       label="Senha"
                       name="password"
                       placeholder="********"
-                      type=""
+                      type="password"
                     />
                   </div>
                 </form>
               </FormProvider>
             </CardContent>
             <CardFooter className="grid gap-1">
-              <Button disabled={isLoading}>
+              <Button disabled={isLoading} type="submit">
                 {isLoading && (
                   <Icons.spinner className="mr-2 size-4 animate-spin" />
                 )}
                 Entrar
               </Button>
-              <Button variant="outline" disabled={isLoading}>
+              <Button variant="outline" disabled={isLoading} type="button">
                 {isLoading && (
                   <Icons.spinner className="mr-2 size-4 animate-spin" />
                 )}
