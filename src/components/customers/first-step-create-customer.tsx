@@ -30,7 +30,7 @@ export function FirstStepCreateCustomer({
   const form = useForm<StepOneCreateCustomerSchema>({
     resolver: zodResolver(stepOneCreateCustomerSchema),
     defaultValues: {
-      customerType: 'J',
+      customerType: 'Jc',
       document: '',
     },
   })

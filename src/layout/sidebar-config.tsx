@@ -9,6 +9,8 @@ import {
   UsersRound,
 } from 'lucide-react'
 
+import { Icons } from '@/components/ui/icons'
+
 export interface NavItem {
   title?: string
   href: string
@@ -45,13 +47,18 @@ export const sidebarConfig: SidebarConfig = {
   sidebarNav: [
     {
       href: Routes.DASHBOARD,
-      icon: <BarChartIcon className="size-4" />,
-      title: 'Dashboard',
+      icon: <Icons.monitor className="size-4" />,
+      title: 'Visão geral',
     },
     {
       href: Routes.CUSTOMERS,
-      icon: <UsersRound className="size-4" />,
+      icon: <Icons.customers className="size-4" />,
       title: 'Clientes',
+    },
+    {
+      href: Routes.BILLING,
+      icon: <Icons.billing className="size-4" />,
+      title: 'Cobrança',
     },
   ],
 }

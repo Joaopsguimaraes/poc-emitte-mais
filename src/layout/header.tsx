@@ -29,10 +29,10 @@ export function Header() {
   return (
     <header
       className={cn(
-        'supports-backdrop-blur:bg-primary-foreground/40 bg-primary-foreground fixed left-0 top-0 z-40 w-full py-0.5 backdrop-blur',
+        'supports-backdrop-blur:bg-primary-foreground/40 bg-primary-foreground fixed left-0 top-0 z-0 w-full py-0.5 backdrop-blur',
         isCollapse
           ? 'md:left-[80px] md:w-[calc(100vw-80px)]'
-          : 'md:left-[180px] md:w-[calc(100vw-180px)]'
+          : 'md:left-[200px] md:w-[calc(100vw-200px)]'
       )}
     >
       <div className="flex w-full items-center justify-end px-4 py-1 md:px-12">

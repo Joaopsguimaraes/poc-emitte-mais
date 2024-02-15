@@ -20,6 +20,10 @@ export default {
       ring: 'hsl(var(--ring))',
       background: 'hsl(var(--background))',
       foreground: 'hsl(var(--foreground))',
+      active: {
+        DEFAULT: 'hsl(var(--active-button))',
+        foreground: 'hsl(var(--active-button-foreground))',
+      },
       primary: {
         DEFAULT: 'hsl(var(--primary))',
         foreground: 'hsl(var(--primary-foreground))',

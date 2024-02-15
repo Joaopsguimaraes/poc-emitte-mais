@@ -16,6 +16,9 @@
     --primary: 282 100% 22%; 
     --primary-foreground: 220 0% 100%;
 
+    --active-button: 282 100% 10%;
+    --active-button-foreground: 220 0% 100%;
+
     --secondary: 339 100% 50%;
     --secondary-foreground: 220 0% 100%;
 

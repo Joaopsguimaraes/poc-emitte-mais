@@ -13,7 +13,7 @@ export function Content({ children }: { children: ReactNode }) {
         'container pb-5 pt-14 md:px-8',
         isCollapse
           ? 'md:ml-[80px] md:max-w-[calc(100vw-80px)]'
-          : 'md:ml-[180px] md:max-w-[calc(100vw-180px)]'
+          : 'md:ml-[220px] md:max-w-[calc(100vw-220px)]'
       )}
     >
       {children}

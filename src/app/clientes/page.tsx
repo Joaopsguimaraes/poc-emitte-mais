@@ -10,49 +10,56 @@ const cards = [
     title: 'Clientes cadastrados',
     value: 120,
     icon: <Users className="size-5" />,
-    color: 'bg-background text-primary',
+    color: 'bg-gray900 text-gray900 border-l-gray900',
   },
   {
     title: 'Clientes ativos',
     value: 90,
     icon: <Users className="size-5" />,
-    color: 'bg-background text-primary',
+    color: 'bg-primary text-primary border-l-primary',
   },
   {
     title: 'Clientes bloqueados',
     value: 15,
     icon: <Users className="size-5" />,
-    color: 'bg-background text-secondary',
+    color: 'bg-[#C40062] text-[#C40062] border-l-[#C40062]',
   },
   {
     title: 'Clientes inativos',
     value: 5,
     icon: <Users className="size-5" />,
-    color: 'bg-background text-secondary',
+    color: 'bg-secondary text-secondary border-l-secondary',
   },
 ]
 
 export default function page() {
   return (
     <div className="hidden flex-col gap-4 md:flex">
-      <span className="text-primary font-semibold text-xl mt-4 mb-2">Clientes</span>
+      <span className="text-primary font-semibold text-xl mt-4 mb-2">
+        Clientes
+      </span>
       <div className="w-full flex flex-row gap-10 my-2">
         {cards.map((card, index) => (
-          <Card key={index} className={cn(card.color, 'w-full')}>
-            <CardContent className="pt-5 flex flex-col w-full gap-2">
-              <div className="flex flex-row items-center w-full justify-between">
-                <div className="w-full">
-                  <div className="flex w-full justify-between items-center">
-                    <span className="text-2xl">{card.value}</span>
-                    {card.icon}
-                  </div>
-                </div>
-              </div>
-              <span className="text-sm font-semibold opacity-70">
+          <div
+            className={cn(
+              'bg-card w-full items-start flex pr-2 py-5 flex-col shadow-default rounded-2xl'
+            )}
+          >
+            <div
+              className={cn(
+                card.color,
+                'bg-card min-w-[220px] w-full items-start flex flex-col rounded-e-2xl pl-4 border-l-4 '
+              )}
+            >
+              <div className={cn('self-end p-3 rounded-full')}>{card.icon}</div>
+              <div className="text-2xl font-bold">{card.value}</div>
+              <span
+                className={cn('text-xs font-medium bg-none text-[#718EBF]/80')}
+              >
                 {card.title}
               </span>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         ))}
       </div>
       <div className="w-full">

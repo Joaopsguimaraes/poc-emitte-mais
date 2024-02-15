@@ -25,8 +25,8 @@ export function SidebarHolder({ items }: Props) {
   return items.length ? (
     <aside
       className={cn(
-        'bg-primary dark:bg-gray900 relative min-h-screen p-0',
-        isCollapse ? 'w-[80px]' : 'w-[180px]'
+        'bg-primary dark:bg-gray900 relative min-h-screen p-0 rounded-se-3xl rounded-ee-3xl',
+        isCollapse ? 'w-[80px]' : 'w-[220px]'
       )}
     >
       <div className="w-full">
@@ -34,9 +34,9 @@ export function SidebarHolder({ items }: Props) {
           <Image
             alt="Emitte mais logo"
             className={cn('mx-auto object-contain')}
-            height={30}
+            height={25}
             src={srcOfLogo}
-            width={100}
+            width={132}
           />
         </div>
         <div className="w-full gap-1 px-4">

@@ -1,6 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { CalendarDateRangePicker } from '@/components/dashboard/date-range-picker'
 import { Overview } from '@/components/dashboard/overview'
 import { RenderCards } from '@/components/dashboard/render-cards'
 import { InvoicesFromCustomer } from '@/components/dashboard/tables/invoices-from-customers'
@@ -12,10 +11,16 @@ export default function DashboardPage() {
         <div className="hidden flex-col md:flex">
           <div className="flex-1 space-y-4 p-8 pt-6">
             <div className="flex w-full items-center justify-between space-y-4">
-              <h2 className="text-primary text-2xl font-bold tracking-tight">Visão geral</h2>
-              <TabsList className="bg-primary flex items-center justify-end p-2">
-                <TabsTrigger value="account">Notas Fiscais</TabsTrigger>
-                <TabsTrigger value="password">Gestão</TabsTrigger>
+              <h2 className="text-foreground text-2xl font-semibold tracking-tight">
+                Visão geral
+              </h2>
+              <TabsList className="bg-primary flex items-center rounded-full justify-end p-2">
+                <TabsTrigger value="account" className="rounded-full">
+                  Notas Fiscais
+                </TabsTrigger>
+                <TabsTrigger value="password" className="rounded-full">
+                  Gestão
+                </TabsTrigger>
               </TabsList>
             </div>
             <div className="flex w-full flex-col space-y-4">

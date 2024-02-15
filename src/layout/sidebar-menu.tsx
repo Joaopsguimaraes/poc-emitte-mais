@@ -57,7 +57,7 @@ export function SidebarMenu({ item, parent }: Props) {
           className={cn(
             'hover:bg-primary dark:hover:bg-secondary flex items-center gap-x-2 rounded-lg p-2 text-xs font-light hover:text-white',
             pathname.endsWith(item.href) &&
-            'bg-primary text-accent dark:bg-secondary'
+              'bg-primary text-accent dark:bg-secondary'
           )}
           href={`${item.href}`}
           rel={item.external ? 'noreferrer' : ''}
@@ -76,7 +76,7 @@ export function SidebarMenu({ item, parent }: Props) {
         className={cn(
           'bg-primary text-primary-foreground dark:bg-gray900 group my-1 flex w-full items-center gap-2 rounded-md border-none p-3 transition-colors duration-300 ease-in-out hover:animate-pulse',
           item.disabled && 'cursor-not-allowed opacity-60',
-          pathname.endsWith(item.href) && 'bg-secondary dark:bg-primary',
+          pathname.endsWith(item.href) && 'bg-active dark:bg-primary',
           isCollapse && 'justify-center'
         )}
         href={item.href}
@@ -85,7 +85,12 @@ export function SidebarMenu({ item, parent }: Props) {
       >
         <div className="hover:text-semibold inline-flex items-center gap-2">
           {item.icon}
-          <span className={cn("text-sm hover:font-semibold", pathname.endsWith(item.href) && 'font-semibold')}>
+          <span
+            className={cn(
+              'text-sm hover:font-semibold',
+              pathname.endsWith(item.href) && 'font-semibold'
+            )}
+          >
             {!isCollapse && item.title}
           </span>
         </div>

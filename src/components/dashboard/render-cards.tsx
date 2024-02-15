@@ -8,14 +8,14 @@ export function RenderCards() {
   const { resultsCardsConfig } = useResultsCardsConfig()
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-      {resultsCardsConfig.map(({ title, icon, value, description }) => (
+    <div className="flex w-full gap-10">
+      {resultsCardsConfig.map(({ title, icon, value, style }) => (
         <ResultsCards
           key={title}
           title={title}
           icon={icon}
           value={value}
-          description={description}
+          style={style}
         />
       ))}
     </div>

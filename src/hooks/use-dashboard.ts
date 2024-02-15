@@ -9,22 +9,28 @@ interface UseDashBoardProps {
   customers: CardsProperties
   invoiceCreated: CardsProperties
   billingCreated: CardsProperties
+  invoiceCanceled: CardsProperties
   setCustomers: (amount: number, reportLastMonth: number) => void
   setInvoiceCreated: (amount: number, reportLastMonth: number) => void
   setBillingCreated: (amount: number, reportLastMonth: number) => void
+  setInvoiceCanceled: (amount: number, reportLastMonth: number) => void
 }
 
 export const useDashboard = create<UseDashBoardProps>((set) => ({
   customers: {
-    amount: 0,
+    amount: 334,
     reportLastMonth: 0,
   },
   invoiceCreated: {
-    amount: 0,
+    amount: 1509,
     reportLastMonth: 0,
   },
   billingCreated: {
-    amount: 0,
+    amount: 1375,
+    reportLastMonth: 0,
+  },
+  invoiceCanceled: {
+    amount: 21,
     reportLastMonth: 0,
   },
   setCustomers: (amount, reportLastMonth) =>
@@ -44,6 +50,13 @@ export const useDashboard = create<UseDashBoardProps>((set) => ({
   setBillingCreated: (amount, reportLastMonth) =>
     set((state) => ({
       billingCreated: {
+        amount,
+        reportLastMonth,
+      },
+    })),
+  setInvoiceCanceled: (amount, reportLastMonth) =>
+    set((state) => ({
+      invoiceCanceled: {
         amount,
         reportLastMonth,
       },
