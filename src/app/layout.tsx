@@ -49,7 +49,14 @@ export default async function RootLayout({ children }: RootLayoutProps) {
                   <Sonner />
                 </ThemeContext>
               ) : (
-                <ThemeContext>{children}</ThemeContext>
+                <ThemeContext>
+                  <Sidebar />
+                  <Header />
+                  <Content>{children}</Content>
+                  <TailwindIndicator />
+                  <Toaster />
+                  <Sonner />
+                </ThemeContext>
               )}
             </TanstackQueryProvider>
           </SessionProvider>

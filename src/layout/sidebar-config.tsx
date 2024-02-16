@@ -57,8 +57,8 @@ export const sidebarConfig: SidebarConfig = {
     },
     {
       href: Routes.BILLING,
-      icon: <Icons.billing className="size-4" />,
-      title: 'Cobrança',
+      icon: <Icons.plans className="size-4" />,
+      title: 'Planos e upgrade',
     },
   ],
 }

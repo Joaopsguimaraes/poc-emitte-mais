@@ -21,42 +21,10 @@ import { cn } from '@/lib/utils'
 import { Avatar, AvatarFallback } from '../ui/avatar'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
+import { DotsHorizontalIcon, DotsVerticalIcon } from '@radix-ui/react-icons'
+import { renderStatusBadge } from '@/utils/render-status-badge'
 
-const renderStatusBadge = (status: string) => {
-  const statusMap = {
-    Ativo: {
-      color:
-        'bg-primary text-primary-foreground border border-primary hover:bg-primary hover:border-primary',
-      icon: <CheckCircle className="size-3" />,
-    },
-    Bloqueado: {
-      color:
-        'bg-secondary text-secondary-foreground border border-secondary hover:bg-secondary hover:border-secondary',
-      icon: <AlertCircle className="size-3" />,
-    },
-    Inativo: {
-      color:
-        'bg-tertiary text-tertiary-foreground border border-tertiary hover:bg-tertiary hover:border-tertiary',
-      icon: <XCircle className="size-3" />,
-    },
-  }
 
-  return (
-    <Badge
-      className={cn(
-        //@ts-ignore
-        statusMap[status].color,
-        'shadow-none border p-2 min-w-[100px] justify-center items-center'
-      )}
-    >
-      {
-        //@ts-ignore
-        statusMap[status].icon
-      }
-      {status}
-    </Badge>
-  )
-}
 
 const data: CustomersListSchema[] = [
   {
@@ -203,7 +171,7 @@ export function ListCustomers() {
       header: 'Ações',
       cell: () => (
         <Button className="size-8 p-0" size="icon" variant="ghost">
-          <EyeIcon className="text-primary size-5" />
+          <DotsVerticalIcon className="text-primary size-5" />
           <span className="sr-only">Editar</span>
         </Button>
       ),
