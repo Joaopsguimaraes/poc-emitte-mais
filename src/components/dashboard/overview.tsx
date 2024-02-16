@@ -1,11 +1,16 @@
 'use client'
 
 import {
+  Area,
   AreaChart,
   Bar,
   BarChart,
+  CartesianGrid,
   Legend,
+  Line,
+  LineChart,
   ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
 } from 'recharts'
@@ -13,114 +18,140 @@ import {
 const data = [
   {
     name: 'Jan',
-    nfe: Math.floor(Math.random() * 5000) + 1000,
-    nfce: Math.floor(Math.random() * 5000) + 1000,
-    nfse: Math.floor(Math.random() * 5000) + 1000,
+    NFe: Math.floor(Math.random() * 5000) + 1000,
+    NFCe: Math.floor(Math.random() * 5000) + 1000,
+    NFSe: Math.floor(Math.random() * 5000) + 1000,
+    CTe: Math.floor(Math.random() * 5000) + 1000,
+    CTeOS: Math.floor(Math.random() * 5000) + 1000,
+    MDFe: Math.floor(Math.random() * 5000) + 1000,
   },
   {
     name: 'Fev',
-    nfe: Math.floor(Math.random() * 5000) + 1000,
-    nfce: Math.floor(Math.random() * 5000) + 1000,
-    nfse: Math.floor(Math.random() * 5000) + 1000,
+    NFe: Math.floor(Math.random() * 5000) + 1000,
+    NFCe: Math.floor(Math.random() * 5000) + 1000,
+    NFSe: Math.floor(Math.random() * 5000) + 1000,
+    CTe: Math.floor(Math.random() * 5000) + 1000,
+    CTeOS: Math.floor(Math.random() * 5000) + 1000,
+    MDFe: Math.floor(Math.random() * 5000) + 1000,
   },
   {
     name: 'Mar',
-    nfe: Math.floor(Math.random() * 5000) + 1000,
-    nfce: Math.floor(Math.random() * 5000) + 1000,
-    nfse: Math.floor(Math.random() * 5000) + 1000,
+    NFe: Math.floor(Math.random() * 5000) + 1000,
+    NFCe: Math.floor(Math.random() * 5000) + 1000,
+    NFSe: Math.floor(Math.random() * 5000) + 1000,
+    CTe: Math.floor(Math.random() * 5000) + 1000,
+    CTeOS: Math.floor(Math.random() * 5000) + 1000,
+    MDFe: Math.floor(Math.random() * 5000) + 1000,
   },
   {
     name: 'Abr',
-    nfe: Math.floor(Math.random() * 5000) + 1000,
-    nfce: Math.floor(Math.random() * 5000) + 1000,
-    nfse: Math.floor(Math.random() * 5000) + 1000,
+    NFe: Math.floor(Math.random() * 5000) + 1000,
+    NFCe: Math.floor(Math.random() * 5000) + 1000,
+    NFSe: Math.floor(Math.random() * 5000) + 1000,
+    CTe: Math.floor(Math.random() * 5000) + 1000,
+    CTeOS: Math.floor(Math.random() * 5000) + 1000,
+    MDFe: Math.floor(Math.random() * 5000) + 1000,
   },
   {
     name: 'Mai',
-    nfe: Math.floor(Math.random() * 5000) + 1000,
-    nfce: Math.floor(Math.random() * 5000) + 1000,
-    nfse: Math.floor(Math.random() * 5000) + 1000,
+    NFe: Math.floor(Math.random() * 5000) + 1000,
+    NFCe: Math.floor(Math.random() * 5000) + 1000,
+    NFSe: Math.floor(Math.random() * 5000) + 1000,
+    CTe: Math.floor(Math.random() * 5000) + 1000,
+    CTeOS: Math.floor(Math.random() * 5000) + 1000,
+    MDFe: Math.floor(Math.random() * 5000) + 1000,
   },
   {
     name: 'Jun',
-    nfe: Math.floor(Math.random() * 5000) + 1000,
-    nfce: Math.floor(Math.random() * 5000) + 1000,
-    nfse: Math.floor(Math.random() * 5000) + 1000,
+    NFe: Math.floor(Math.random() * 5000) + 1000,
+    NFCe: Math.floor(Math.random() * 5000) + 1000,
+    NFSe: Math.floor(Math.random() * 5000) + 1000,
+    CTe: Math.floor(Math.random() * 5000) + 1000,
+    CTeOS: Math.floor(Math.random() * 5000) + 1000,
+    MDFe: Math.floor(Math.random() * 5000) + 1000,
   },
   {
     name: 'Jul',
-    nfe: Math.floor(Math.random() * 5000) + 1000,
-    nfce: Math.floor(Math.random() * 5000) + 1000,
-    nfse: Math.floor(Math.random() * 5000) + 1000,
+    NFe: Math.floor(Math.random() * 5000) + 1000,
+    NFCe: Math.floor(Math.random() * 5000) + 1000,
+    NFSe: Math.floor(Math.random() * 5000) + 1000,
+    CTe: Math.floor(Math.random() * 5000) + 1000,
+    CTeOS: Math.floor(Math.random() * 5000) + 1000,
+    MDFe: Math.floor(Math.random() * 5000) + 1000,
   },
   {
     name: 'Ago',
-    nfe: Math.floor(Math.random() * 5000) + 1000,
-    nfce: Math.floor(Math.random() * 5000) + 1000,
-    nfse: Math.floor(Math.random() * 5000) + 1000,
+    NFe: Math.floor(Math.random() * 5000) + 1000,
+    NFCe: Math.floor(Math.random() * 5000) + 1000,
+    NFSe: Math.floor(Math.random() * 5000) + 1000,
+    CTe: Math.floor(Math.random() * 5000) + 1000,
+    CTeOS: Math.floor(Math.random() * 5000) + 1000,
+    MDFe: Math.floor(Math.random() * 5000) + 1000,
   },
   {
     name: 'Set',
-    nfe: Math.floor(Math.random() * 5000) + 1000,
-    nfce: Math.floor(Math.random() * 5000) + 1000,
-    nfse: Math.floor(Math.random() * 5000) + 1000,
+    NFe: Math.floor(Math.random() * 5000) + 1000,
+    NFCe: Math.floor(Math.random() * 5000) + 1000,
+    NFSe: Math.floor(Math.random() * 5000) + 1000,
+    CTe: Math.floor(Math.random() * 5000) + 1000,
+    CTeOS: Math.floor(Math.random() * 5000) + 1000,
+    MDFe: Math.floor(Math.random() * 5000) + 1000,
   },
   {
     name: 'Out',
-    nfe: Math.floor(Math.random() * 5000) + 1000,
-    nfce: Math.floor(Math.random() * 5000) + 1000,
-    nfse: Math.floor(Math.random() * 5000) + 1000,
+    NFe: Math.floor(Math.random() * 5000) + 1000,
+    NFCe: Math.floor(Math.random() * 5000) + 1000,
+    NFSe: Math.floor(Math.random() * 5000) + 1000,
+    CTe: Math.floor(Math.random() * 5000) + 1000,
+    CTeOS: Math.floor(Math.random() * 5000) + 1000,
+    MDFe: Math.floor(Math.random() * 5000) + 1000,
   },
   {
     name: 'Nov',
-    nfe: Math.floor(Math.random() * 5000) + 1000,
-    nfce: Math.floor(Math.random() * 5000) + 1000,
-    nfse: Math.floor(Math.random() * 5000) + 1000,
+    NFe: Math.floor(Math.random() * 5000) + 1000,
+    NFCe: Math.floor(Math.random() * 5000) + 1000,
+    NFSe: Math.floor(Math.random() * 5000) + 1000,
+    CTe: Math.floor(Math.random() * 5000) + 1000,
+    CTeOS: Math.floor(Math.random() * 5000) + 1000,
+    MDFe: Math.floor(Math.random() * 5000) + 1000,
   },
   {
     name: 'Dez',
-    nfe: Math.floor(Math.random() * 5000) + 1000,
-    nfce: Math.floor(Math.random() * 5000) + 1000,
-    nfse: Math.floor(Math.random() * 5000) + 1000,
+    NFe: Math.floor(Math.random() * 5000) + 1000,
+    NFCe: Math.floor(Math.random() * 5000) + 1000,
+    NFSe: Math.floor(Math.random() * 5000) + 1000,
+    CTe: Math.floor(Math.random() * 5000) + 1000,
+    CTeOS: Math.floor(Math.random() * 5000) + 1000,
+    MDFe: Math.floor(Math.random() * 5000) + 1000,
   },
 ]
 
 export function Overview() {
   return (
     <ResponsiveContainer width="100%" height={308}>
-      <BarChart data={data}>
-        <XAxis
-          dataKey="name"
-          stroke="#888888"
-          fontSize={12}
-          tickLine={false}
-          axisLine={false}
-        />
-        <YAxis
-          stroke="#888888"
-          fontSize={12}
-          tickLine={false}
-          axisLine={false}
-          tickFormatter={(value) => `${value}`}
-        />
-        <Bar
-          dataKey="nfe"
-          fill="currentColor"
-          radius={[4, 4, 0, 0]}
-          className="fill-primary"
-        />
-        <Bar
-          dataKey="nfce"
-          fill="currentColor"
-          radius={[4, 4, 0, 0]}
-          className="fill-secondary"
-        />
-        <Bar
-          dataKey="nfse"
-          fill="currentColor"
-          radius={[4, 4, 0, 0]}
-          className="fill-[#C40062]"
-        />
+      <BarChart
+        width={500}
+        height={300}
+        data={data}
+        margin={{
+          top: 20,
+          right: 30,
+          left: 20,
+          bottom: 5,
+        }}
+        barSize={20}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="NFe" stackId="a" fill="#06C2FD" radius={[0, 0, 4, 4]} />
+        <Bar dataKey="NFCe" stackId="a" fill="#0050DC" />
+        <Bar dataKey="CTe" stackId="a" fill="#FAD200" />
+        <Bar dataKey="CTeOS" stackId="a" fill="#7C3AED" />
+        <Bar dataKey="NFSe" stackId="a" fill="#00D47B" />
+        <Bar dataKey="MDFe" stackId="a" fill="#F97316" radius={[4, 4, 0, 0]} />
       </BarChart>
     </ResponsiveContainer>
   )
