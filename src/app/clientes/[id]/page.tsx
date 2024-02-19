@@ -2,13 +2,6 @@ import { Metadata } from 'next'
 import { CustomerDetailsSchema } from '@/validations/customer-details'
 import { faker } from '@faker-js/faker'
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
 import { CustomerDetail } from '@/components/customers/customer-detail'
 import { PageListHeader } from '@/components/page-list-header'
 
@@ -22,17 +15,17 @@ const customerFaker: CustomerDetailsSchema = {
   email: faker.internet.email(),
   phone: faker.phone.number('(##) #####-####'),
   address: {
-    state: faker.address.state(),
-    street: faker.address.streetName(),
-    district: faker.address.county(),
-    city: faker.address.city(),
-    country: faker.address.country(),
-    cep: faker.address.zipCode(),
+    state: faker.location.state(),
+    street: faker.location.street(),
+    district: faker.location.county(),
+    city: faker.location.city(),
+    country: faker.location.country(),
+    cep: faker.location.zipCode(),
   },
   isProdutorRural: false,
   crt: 'Simples Nacional',
   regimeEspecial: 'Nenhum',
-  modules: ["NFe", "NFSe", "CTe", "MDFe"]
+  modules: ['NFe', 'NFSe', 'CTe', 'MDFe'],
 }
 
 export async function generateMetadata({

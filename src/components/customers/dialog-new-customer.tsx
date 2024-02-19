@@ -35,7 +35,7 @@ export function DialogNewCustomer() {
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-[1100px]">
-        <DialogTitle className="flex items-center w-full my-2">
+        <DialogTitle className="my-2 flex w-full items-center">
           <ol className="flex w-full items-center justify-between">
             {steps.map((step, index) => (
               <li
@@ -43,8 +43,8 @@ export function DialogNewCustomer() {
                 className={cn(
                   'flex w-48 items-center gap-2 text-sm',
                   activeStep === index
-                    ? 'font-bold text-primary'
-                    : 'font-normal text-primary/30'
+                    ? 'text-primary font-bold'
+                    : 'text-primary/30 font-normal'
                 )}
               >
                 {step.icon}

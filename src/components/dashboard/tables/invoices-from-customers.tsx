@@ -73,15 +73,15 @@ export function InvoicesFromCustomer() {
       header: 'CNPJ / Razão social',
       cell: ({ row }) => {
         return (
-          <div className="flex gap-2 items-center">
+          <div className="flex items-center gap-2">
             <Avatar>
               <AvatarFallback>{row.original.fullName.charAt(0)}</AvatarFallback>
             </Avatar>
-            <div className="flex flex-col w-full items-start">
-              <span className="font-medium text-primary">
+            <div className="flex w-full flex-col items-start">
+              <span className="text-primary font-medium">
                 {row.original.fullName}
               </span>
-              <span className="text-[#718EBF] text-sm">
+              <span className="text-sm text-[#718EBF]">
                 {cnpjMask.mask(row.original.document)}
               </span>
             </div>
@@ -93,7 +93,7 @@ export function InvoicesFromCustomer() {
       accessorKey: 'status',
       header: 'Status',
       cell: ({ row }) => (
-        <div className="flex gap-2 justify-center items-center">
+        <div className="flex items-center justify-center gap-2">
           <Badge
             className={cn(
               row.original.status === 'Validada'
@@ -101,7 +101,7 @@ export function InvoicesFromCustomer() {
                 : row.original.status === 'Cancelada'
                   ? 'bg-[#fdf9fb] text-[#FF005A] hover:bg-[#fdf9fb] hover:text-[#FF005A]'
                   : 'bg-tertiary text-tertiary-foreground hover:bg-tertiary-foreground hover:text-tertiary',
-              'shadow-none border p-2 min-w-[80px] justify-center items-center'
+              'min-w-[80px] items-center justify-center border p-2 shadow-none'
             )}
           >
             {row.original.status}

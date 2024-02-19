@@ -4,27 +4,18 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { DataTableAppliedFilters } from '@/@types/data-table-applied-filters'
 import { DataTable } from '@/shared/data-table'
 import { DataTableToolbarExport } from '@/shared/data-table/data-table-toolbar-export'
-import { RenderStatusBadge } from '@/utils/render-status-badge'
 import { CustomersListSchema } from '@/validations/customer-list'
 import { faker } from '@faker-js/faker'
-import { DotsHorizontalIcon, DotsVerticalIcon } from '@radix-ui/react-icons'
+import { DotsVerticalIcon } from '@radix-ui/react-icons'
 import { ColumnDef } from '@tanstack/react-table'
-import {
-  AlertCircle,
-  CheckCircle,
-  EyeIcon,
-  Plus,
-  PlusCircle,
-  XCircle,
-} from 'lucide-react'
 
-import { formatCurrency } from '@/lib/fomart-currency'
 import { cnpjMask } from '@/lib/maskter'
 import { cn } from '@/lib/utils'
 
 import { Avatar, AvatarFallback } from '../ui/avatar'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
+import { Dialog, DialogTrigger } from '../ui/dialog'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,20 +23,26 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
+import { EditCustomer } from './edit-customer'
 
 const dataFaker: CustomersListSchema[] = Array.from({ length: 10 }, () => ({
   id: faker.string.uuid(),
-  document: '00.00.000/0001-00',
-  status: faker.helpers.arrayElement(['Ativo', 'Bloqueado', 'Inativo']),
+  document: '00.000.000/0000-00',
   fullName: faker.company.name(),
-  totalInvoices: faker.number.int({
-    min: 0,
-    max: 1000,
-  }),
-  modules: ['NFe', 'NFSe'],
+  shortName: faker.company.name(),
+  dueCertificate: faker.date.recent().toISOString(),
+  plansAndCredits: faker.number
+    .int({
+      min: 1,
+      max: 100,
+    })
+    .toString(),
+  modules: Array.from({ length: 3 }, () =>
+    faker.helpers.arrayElement(['NFe', 'NFCe', 'NFSe'])
+  ),
+  status: faker.helpers.arrayElement(['Ativado', 'Bloqueado', 'Inativo']),
 }))
 
 export function ListCustomers() {
@@ -69,9 +66,19 @@ export function ListCustomers() {
       value: searchParams.get('fullName') ?? '',
     },
     {
-      id: 'totalInvoices',
+      id: 'shortName',
       title: 'Créditos',
-      value: searchParams.get('totalInvoices') ?? '',
+      value: searchParams.get('shortName') ?? '',
+    },
+    {
+      id: 'dueCertificate',
+      title: 'Certificado',
+      value: searchParams.get('dueCertificate') ?? '',
+    },
+    {
+      id: 'plansAndCredits',
+      title: 'Planos e Créditos',
+      value: searchParams.get('plansAndCredits') ?? '',
     },
     {
       id: 'status',
@@ -89,20 +96,21 @@ export function ListCustomers() {
     {
       accessorKey: 'document',
       header: 'CNPJ / Razão social',
-      cell: (row) => {
+      cell: ({ row }) => {
         return (
-          <div className="w-[300px] flex gap-2 items-center">
+          <div className="flex w-[300px] items-center gap-2">
             <Avatar>
-              <AvatarFallback>
-                {row.row.original.fullName.charAt(0)}
-              </AvatarFallback>
+              <AvatarFallback>{row.original.fullName.charAt(0)}</AvatarFallback>
             </Avatar>
-            <div className="flex flex-col w-full items-start">
-              <span className="font-medium text-primary">
-                {row.row.original.fullName}
+            <div className="flex w-full flex-col items-start">
+              <span className="text-primary font-medium">
+                {row.original.fullName}
               </span>
-              <span className="text-[#718EBF] text-sm">
-                {cnpjMask.mask(row.row.original.document)}
+              <span className="text-sm font-medium text-[#718EBF]">
+                {row.original.shortName}
+              </span>
+              <span className="text-sm text-[#718EBF]">
+                {cnpjMask.mask(row.original.document)}
               </span>
             </div>
           </div>
@@ -110,18 +118,34 @@ export function ListCustomers() {
       },
     },
     {
+      accessorKey: 'dueCertificate',
+      header: 'Vencimento do certificado',
+      cell: ({ row }) => (
+        <span className="text-[#718EBF]">
+          {new Date(row.original.dueCertificate).toLocaleDateString()}
+        </span>
+      ),
+    },
+    {
+      accessorKey: 'plansAndCredits',
+      header: 'Planos e Créditos',
+      cell: ({ row }) => (
+        <span className="text-[#718EBF]">{row.original.plansAndCredits}</span>
+      ),
+    },
+    {
       accessorKey: 'status',
       header: 'Status',
       cell: ({ row }) => (
-        <div className="flex gap-2 justify-center items-center">
+        <div className="flex items-center justify-center gap-2">
           <Badge
             className={cn(
-              row.original.status === 'Ativo'
-                ? 'bg-primary text-primary-foreground hover:bg-primary-foreground hover:text-primary'
+              row.original.status === 'Ativado'
+                ? 'bg-[#FBF1FF] text-[#4F0072] hover:bg-[#FBF1FF] hover:text-[#4F0072]'
                 : row.original.status === 'Bloqueado'
-                  ? 'bg-secondary text-secondary-foreground hover:bg-secondary-foreground hover:text-secondary'
-                  : 'bg-tertiary text-tertiary-foreground hover:bg-tertiary-foreground hover:text-tertiary',
-              'shadow-none border p-2 min-w-[80px] justify-center items-center'
+                  ? 'bg-[#FFF0F6] text-[#FF005A] hover:bg-[#FFF0F6] hover:text-[#FF005A]'
+                  : 'bg-[#F1F5F9] text-[#7D93B8] hover:bg-[#F1F5F9] hover:text-[#7D93B8]',
+              'min-w-[80px] items-center justify-center border-none p-2 shadow-none'
             )}
           >
             {row.original.status}
@@ -135,12 +159,12 @@ export function ListCustomers() {
       cell: ({ row }) => (
         <div>
           {row.original.modules.slice(0, 2).map((module) => (
-            <Badge key={module} variant="tertiary" className="mr-1">
+            <Badge key={module} variant="outline" className="mr-1">
               {module}
             </Badge>
           ))}
           {row.original.modules.length > 2 && (
-            <Badge variant="tertiary">
+            <Badge variant="outline">
               <span
                 className={cn('text-xs')}
               >{`...+${row.original.modules.length}`}</span>
@@ -149,14 +173,6 @@ export function ListCustomers() {
         </div>
       ),
     },
-    {
-      accessorKey: 'totalInvoices',
-      header: 'Notas emitidas',
-      cell: (row) => (
-        <span className="text-[#718EBF]">{row.row.original.totalInvoices}</span>
-      ),
-    },
-
     {
       accessorKey: 'actions',
       header: 'Ações',
@@ -167,10 +183,20 @@ export function ListCustomers() {
               <DotsVerticalIcon className="size-5" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56">
+          <DropdownMenuContent className="w-40">
             <DropdownMenuLabel>Ações</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
+              <DropdownMenuItem>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="ghost" className="w-full">
+                      Editar
+                    </Button>
+                  </DialogTrigger>
+                  <EditCustomer />
+                </Dialog>
+              </DropdownMenuItem>
               <DropdownMenuItem>
                 <Button
                   variant="ghost"
@@ -200,9 +226,9 @@ export function ListCustomers() {
       page={1}
       total={dataFaker.length}
     >
-      <DataTable.Toolbar>
+      {/* <DataTable.Toolbar>
         <DataTableToolbarExport />
-      </DataTable.Toolbar>
+      </DataTable.Toolbar> */}
       <DataTable.Filters filters={appliedFilters} />
       <DataTable.Main />
       <DataTable.Pagination />
