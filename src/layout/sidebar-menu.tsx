@@ -56,7 +56,7 @@ export function SidebarMenu({ item, parent }: Props) {
         <NavigationLink
           className={cn(
             'hover:bg-primary dark:hover:bg-secondary flex items-center gap-x-2 rounded-lg p-2 text-xs font-light hover:text-white',
-            pathname.endsWith(item.href) &&
+            pathname.includes(item.href) &&
               'bg-primary text-accent dark:bg-secondary'
           )}
           href={`${item.href}`}

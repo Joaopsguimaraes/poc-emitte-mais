@@ -25,6 +25,7 @@ import {
   DialogHeader,
   DialogTrigger,
 } from '../ui/dialog'
+import { Switch } from '../ui/switch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
 import { InvoiceList } from './invoice-list'
 
@@ -55,66 +56,87 @@ export function CustomerDetail({ customer }: CustomerDetailProps) {
           <CardTitle>Detalhes</CardTitle>
           <CardDescription>Informações do cliente</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-2 gap-4">
+        <CardContent className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
-            <span className="font-bold">Nome: </span>
-            <span>{customer.fullName}</span>
+            <span className="font-bold font-sans text-sm">Nome: </span>
+            <span className="font-sans text-sm font-normal">
+              {customer.fullName}
+            </span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="font-bold">Email: </span>
-            <span>{customer.email}</span>
+            <span className="font-bold font-sans text-sm">Email: </span>
+            <span className="font-sans text-sm font-normal">
+              {customer.email}
+            </span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="font-bold">Telefone: </span>
-            <span>{customer.phone}</span>
+            <span className="font-bold font-sans text-sm">Telefone: </span>
+            <span className="font-sans text-sm font-normal">
+              {customer.phone}
+            </span>
           </div>
-          <div className="flex items-start flex-col gap-2">
+          <div className="flex items-center flex-col gap-2">
             <div className="w-full flex flex-col items-start gap-2">
               <div className="w-full flex flex-row gap-4">
-                <span className="font-bold">Rua:</span>
-                <span>{customer.address.street}</span>
+                <span className="font-bold font-sans text-sm">Rua:</span>
+                <span className="font-sans text-sm font-normal">
+                  {customer.address.street}
+                </span>
               </div>
               <div className="w-full flex flex-row gap-4">
-                <span className="font-bold">Bairro:</span>
-                <span>{customer.address.district}</span>
+                <span className="font-bold font-sans text-sm">Bairro:</span>
+                <span className="font-sans text-sm font-normal">
+                  {customer.address.district}
+                </span>
               </div>
               <div className="w-full flex flex-row gap-4">
-                <span className="font-bold">Cidade:</span>
-                <span>{customer.address.city}</span>
+                <span className="font-bold font-sans text-sm">Cidade:</span>
+                <span className="font-sans text-sm font-normal">
+                  {customer.address.city}
+                </span>
               </div>
               <div className="w-full flex flex-row gap-4">
-                <span className="font-bold">Estado:</span>
-                <span>{customer.address.state}</span>
+                <span className="font-bold font-sans text-sm">Estado:</span>
+                <span className="font-sans text-sm font-normal">
+                  {customer.address.state}
+                </span>
               </div>
               <div className="w-full flex flex-row gap-4">
-                <span className="font-bold">País:</span>
-                <span>{customer.address.country}</span>
+                <span className="font-bold font-sans text-sm">País:</span>
+                <span className="font-sans text-sm font-normal">
+                  {customer.address.country}
+                </span>
               </div>
               <div className="w-full flex flex-row gap-4">
-                <span className="font-bold">CEP:</span>
-                <span>{customer.address.cep}</span>
+                <span className="font-bold font-sans text-sm">CEP:</span>
+                <span className="font-sans text-sm font-normal">
+                  {customer.address.cep}
+                </span>
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-2 mb-4">
-            <span className="font-bold">Módulos:</span>
-            <div>
+          <div className="flex flex-col gap-2 mb-3">
+            <span className="font-bold font-sans text-sm">Módulos:</span>
+            <div className="flex flex-row items-center gap-4 flex-wrap">
               {customer.modules.map((module) => (
-                <Badge key={module} variant="tertiary" className="mr-1">
-                  {module}
-                </Badge>
+                <div className="flex items-center gap-2">
+                  <span className="font-sans text-sm">{module}</span>
+                  <Switch key={module} value={module} />
+                </div>
               ))}
             </div>
           </div>
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="default" type="button" className="w-full my-2">
+              <Button variant="default" type="button" className="w-full ">
                 Cadastrar usuário
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <span className="font-bold">Cadastro de usuário</span>
+                <span className="font-bold font-sans text-sm">
+                  Cadastro de usuário
+                </span>
               </DialogHeader>
               <DialogDescription>
                 Preencha os campos abaixo para cadastrar um novo usuário
@@ -162,8 +184,8 @@ export function CustomerDetail({ customer }: CustomerDetailProps) {
         <CardContent className="pt-3">
           <Tabs defaultValue="tab-1">
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="tab-1">Notas Fiscais</TabsTrigger>
-              <TabsTrigger value="tab-2">Vencimentos</TabsTrigger>
+              <TabsTrigger value="tab-1" className='text-sm font-sans'>Notas Fiscais</TabsTrigger>
+              <TabsTrigger value="tab-2" className='text-sm font-sans'>Vencimentos</TabsTrigger>
             </TabsList>
             <TabsContent value="tab-1">
               <InvoiceList />

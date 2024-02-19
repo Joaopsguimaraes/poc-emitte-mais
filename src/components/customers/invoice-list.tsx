@@ -131,7 +131,7 @@ export function InvoiceList() {
           size="icon"
           className="hover:bg-primary-foreground hover:text-primary"
         >
-          <Download />
+          <Download className='size-4' />
         </Button>
       ),
     },

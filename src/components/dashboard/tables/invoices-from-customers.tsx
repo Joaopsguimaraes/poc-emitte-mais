@@ -3,6 +3,7 @@
 import { useSearchParams } from 'next/navigation'
 import { DataTableAppliedFilters } from '@/@types/data-table-applied-filters'
 import { DataTable } from '@/shared/data-table'
+import { faker } from '@faker-js/faker'
 import { ColumnDef } from '@tanstack/react-table'
 import { z } from 'zod'
 
@@ -23,43 +24,16 @@ export type InvoicesFromCustomerSchema = z.infer<
   typeof invoicesFromCustomerSchema
 >
 
-const data: InvoicesFromCustomerSchema[] = [
-  {
-    id: '1',
-    document: '69840156000187',
-    fullName: 'Empresa A',
-    totalInvoices: 11542,
-    status: 'Ativo',
-  },
-  {
-    id: '2',
-    document: '68065362000102',
-    fullName: 'Empresa B',
-    totalInvoices: 998,
-    status: 'Bloqueado',
-  },
-  {
-    id: '3',
-    document: '81574599000179',
-    fullName: 'Empresa C',
-    totalInvoices: 784,
-    status: 'Bloqueado',
-  },
-  {
-    id: '4',
-    document: '28548794000141',
-    fullName: 'Empresa D',
-    totalInvoices: 2147,
-    status: 'Inativo',
-  },
-  {
-    id: '5',
-    document: '28548794000142',
-    fullName: 'Empresa E',
-    totalInvoices: 665,
-    status: 'Inativo',
-  },
-]
+const data: InvoicesFromCustomerSchema[] = Array.from({ length: 5 }, () => ({
+  id: faker.string.uuid(),
+  document: '00.000.000/0001-00',
+  fullName: faker.company.name(),
+  totalInvoices: faker.number.int({
+    min: 1,
+    max: 100,
+  }),
+  status: faker.helpers.arrayElement(['Validada', 'Cancelada']),
+}))
 
 export function InvoicesFromCustomer() {
   const searchParams = useSearchParams()
@@ -122,10 +96,10 @@ export function InvoicesFromCustomer() {
         <div className="flex gap-2 justify-center items-center">
           <Badge
             className={cn(
-              row.original.status === 'Ativo'
-                ? 'bg-primary text-primary-foreground hover:bg-primary-foreground hover:text-primary'
-                : row.original.status === 'Bloqueado'
-                  ? 'bg-secondary text-secondary-foreground hover:bg-secondary-foreground hover:text-secondary'
+              row.original.status === 'Validada'
+                ? 'bg-[#FBF1FF] text-[#4F0072] hover:bg-[#FBF1FF] hover:text-[#4F0072]'
+                : row.original.status === 'Cancelada'
+                  ? 'bg-[#fdf9fb] text-[#FF005A] hover:bg-[#fdf9fb] hover:text-[#FF005A]'
                   : 'bg-tertiary text-tertiary-foreground hover:bg-tertiary-foreground hover:text-tertiary',
               'shadow-none border p-2 min-w-[80px] justify-center items-center'
             )}
@@ -154,6 +128,7 @@ export function InvoicesFromCustomer() {
     >
       <DataTable.Filters filters={appliedFilters} />
       <DataTable.Main />
+      <DataTable.Pagination />
     </DataTable.Root>
   )
 }
