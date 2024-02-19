@@ -4,27 +4,7 @@ import { OptionsField } from '@/@types/options-field'
 import { UseFormReturn } from 'react-hook-form'
 import { z } from 'zod'
 
-import { brasilApi } from '@/lib/axios/brasil-api'
 import { getStates } from '@/lib/get-states'
-
-export const stepThreeCreateNewCustomerSchema = z.object({
-  isProdutorRural: z
-    .boolean({
-      required_error: 'Produtor rural é obrigatório',
-    })
-    .or(
-      z.string({
-        required_error: 'Produtor rural é obrigatório',
-      })
-    )
-    .transform((val) => (val === 'true' ? true : false)),
-  crt: z.string({
-    required_error: 'CRT é obrigatório',
-  }),
-  regimeEspecial: z.string({
-    required_error: 'Regime especial é obrigatório',
-  }),
-})
 
 export const stepOneCreateCustomerSchema = z.object({
   customerType: z.string({
@@ -85,6 +65,25 @@ export const stepTwoCreateCustomerSchema = z.object({
     cep: z.string({
       required_error: 'CEP é obrigatório',
     }),
+  }),
+})
+
+export const stepThreeCreateNewCustomerSchema = z.object({
+  isProdutorRural: z
+    .boolean({
+      required_error: 'Produtor rural é obrigatório',
+    })
+    .or(
+      z.string({
+        required_error: 'Produtor rural é obrigatório',
+      })
+    )
+    .transform((val) => (val === 'true' ? true : false)),
+  crt: z.string({
+    required_error: 'CRT é obrigatório',
+  }),
+  regimeEspecial: z.string({
+    required_error: 'Regime especial é obrigatório',
   }),
 })
 

@@ -1,5 +1,6 @@
-import { Switch } from '@/components/ui/switch'
 import { Controller, useFormContext } from 'react-hook-form'
+
+import { Switch } from '@/components/ui/switch'
 
 interface FormSwitchProps {
   name: string
@@ -17,11 +18,8 @@ export function FormSwitch({ name, disabled }: FormSwitchProps) {
         <Switch
           checked={field.value}
           disabled={disabled}
-          nonce={undefined}
           onChange={field.onChange}
           onCheckedChange={field.onChange}
-          onResize={undefined}
-          onResizeCapture={undefined}
           value={field.value}
         />
       )}

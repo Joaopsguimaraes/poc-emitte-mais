@@ -14,7 +14,13 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command'
-import { FormControl, FormItem, FormLabel } from '@/components/ui/form'
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import {
   Popover,
@@ -31,6 +37,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 
 interface Props<T> {
@@ -90,6 +97,8 @@ export function FormFieldDynamic<T>({ field, slot }: Props<T>) {
           width="full"
         />
       )
+    case 'switch':
+      return <Switch checked={field.value} onCheckedChange={field.onChange} />
     case 'radio':
       return (
         <RadioGroup

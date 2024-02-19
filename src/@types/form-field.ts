@@ -31,6 +31,12 @@ export type FormFields<T> = {
   | {
       translateKey: string
       className?: string
+      type: 'switch'
+      options: FormRadioOption[]      
+    }
+  | {
+      translateKey: string
+      className?: string
       type: 'radio'
       options: FormRadioOption[]
     }

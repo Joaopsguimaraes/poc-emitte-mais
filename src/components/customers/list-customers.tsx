@@ -1,10 +1,13 @@
 'use client'
 
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { DataTableAppliedFilters } from '@/@types/data-table-applied-filters'
 import { DataTable } from '@/shared/data-table'
 import { DataTableToolbarExport } from '@/shared/data-table/data-table-toolbar-export'
+import { RenderStatusBadge } from '@/utils/render-status-badge'
 import { CustomersListSchema } from '@/validations/customer-list'
+import { faker } from '@faker-js/faker'
+import { DotsHorizontalIcon, DotsVerticalIcon } from '@radix-ui/react-icons'
 import { ColumnDef } from '@tanstack/react-table'
 import {
   AlertCircle,
@@ -15,62 +18,39 @@ import {
   XCircle,
 } from 'lucide-react'
 
+import { formatCurrency } from '@/lib/fomart-currency'
 import { cnpjMask } from '@/lib/maskter'
 import { cn } from '@/lib/utils'
 
 import { Avatar, AvatarFallback } from '../ui/avatar'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
-import { DotsHorizontalIcon, DotsVerticalIcon } from '@radix-ui/react-icons'
-import { renderStatusBadge } from '@/utils/render-status-badge'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu'
 
-
-
-const data: CustomersListSchema[] = [
-  {
-    id: '1',
-    document: '69840156000187',
-    fullName: 'Empresa A',
-    totalInvoices: 11542,
-    modules: ['NFe', 'NFCe', 'MDFe', 'CTe', 'NFSe'],
-    status: 'Ativo',
-  },
-  {
-    id: '2',
-    document: '68065362000102',
-    fullName: 'Empresa B',
-    totalInvoices: 998,
-    modules: ['NFe', 'NFCe'],
-    status: 'Bloqueado',
-  },
-  {
-    id: '3',
-    document: '81574599000179',
-    fullName: 'Empresa C',
-    totalInvoices: 784,
-    modules: ['NFe', 'NFCe'],
-    status: 'Bloqueado',
-  },
-  {
-    id: '4',
-    document: '28548794000141',
-    fullName: 'Empresa D',
-    totalInvoices: 2147,
-    modules: ['NFe', 'NFCe'],
-    status: 'Inativo',
-  },
-  {
-    id: '5',
-    document: '28548794000142',
-    fullName: 'Empresa E',
-    totalInvoices: 665,
-    modules: ['NFe', 'NFCe'],
-    status: 'Inativo',
-  },
-]
+const dataFaker: CustomersListSchema[] = Array.from({ length: 10 }, () => ({
+  id: faker.string.uuid(),
+  document: '00.00.000/0001-00',
+  status: faker.helpers.arrayElement(['Ativo', 'Bloqueado', 'Inativo']),
+  fullName: faker.company.name(),
+  totalInvoices: faker.number.int({
+    min: 0,
+    max: 1000,
+  }),
+  modules: ['NFe', 'NFSe'],
+}))
 
 export function ListCustomers() {
   const searchParams = useSearchParams()
+  const router = useRouter()
 
   const appliedFilters: DataTableAppliedFilters<CustomersListSchema>[] = [
     {
@@ -134,7 +114,18 @@ export function ListCustomers() {
       header: 'Status',
       cell: ({ row }) => (
         <div className="flex gap-2 justify-center items-center">
-          {renderStatusBadge(row.original.status)}
+          <Badge
+            className={cn(
+              row.original.status === 'Ativo'
+                ? 'bg-primary text-primary-foreground hover:bg-primary-foreground hover:text-primary'
+                : row.original.status === 'Bloqueado'
+                  ? 'bg-secondary text-secondary-foreground hover:bg-secondary-foreground hover:text-secondary'
+                  : 'bg-tertiary text-tertiary-foreground hover:bg-tertiary-foreground hover:text-tertiary',
+              'shadow-none border p-2 min-w-[80px] justify-center items-center'
+            )}
+          >
+            {row.original.status}
+          </Badge>
         </div>
       ),
     },
@@ -169,11 +160,34 @@ export function ListCustomers() {
     {
       accessorKey: 'actions',
       header: 'Ações',
-      cell: () => (
-        <Button className="size-8 p-0" size="icon" variant="ghost">
-          <DotsVerticalIcon className="text-primary size-5" />
-          <span className="sr-only">Editar</span>
-        </Button>
+      cell: ({ row }) => (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon">
+              <DotsVerticalIcon className="size-5" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56">
+            <DropdownMenuLabel>Ações</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <DropdownMenuItem>
+                <Button
+                  variant="ghost"
+                  className="w-full"
+                  onClick={() => router.push(`clientes/${row.original.id}`)}
+                >
+                  Detalhes
+                </Button>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Button variant="ghost" className="w-full">
+                  Emissor
+                </Button>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
       ),
     },
   ]
@@ -181,10 +195,10 @@ export function ListCustomers() {
   return (
     <DataTable.Root
       columns={columns}
-      data={data}
-      limit={1}
+      data={dataFaker}
+      limit={10}
       page={1}
-      total={data.length}
+      total={dataFaker.length}
     >
       <DataTable.Toolbar>
         <DataTableToolbarExport />

@@ -3,10 +3,6 @@
 import { useSearchParams } from 'next/navigation'
 import { DataTableAppliedFilters } from '@/@types/data-table-applied-filters'
 import { DataTable } from '@/shared/data-table'
-import { DataTableToolbarColumnsFilter } from '@/shared/data-table/data-table-toolbar-columns-filter'
-import { DataTableToolbarExport } from '@/shared/data-table/data-table-toolbar-export'
-import { renderStatusBadge } from '@/utils/render-status-badge'
-import { DotsVerticalIcon } from '@radix-ui/react-icons'
 import { ColumnDef } from '@tanstack/react-table'
 import { z } from 'zod'
 
@@ -14,7 +10,6 @@ import { cnpjMask } from '@/lib/maskter'
 import { cn } from '@/lib/utils'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 
 const invoicesFromCustomerSchema = z.object({
   id: z.string(),
@@ -128,10 +123,10 @@ export function InvoicesFromCustomer() {
           <Badge
             className={cn(
               row.original.status === 'Ativo'
-                ? 'bg-primary text-primary-foreground'
+                ? 'bg-primary text-primary-foreground hover:bg-primary-foreground hover:text-primary'
                 : row.original.status === 'Bloqueado'
-                  ? 'bg-secondary text-secondary-foreground'
-                  : 'bg-tertiary text-tertiary-foreground',
+                  ? 'bg-secondary text-secondary-foreground hover:bg-secondary-foreground hover:text-secondary'
+                  : 'bg-tertiary text-tertiary-foreground hover:bg-tertiary-foreground hover:text-tertiary',
               'shadow-none border p-2 min-w-[80px] justify-center items-center'
             )}
           >
