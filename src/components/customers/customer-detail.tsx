@@ -3,6 +3,15 @@
 import { FormInput } from '@/shared/form/FormInput'
 import { CustomerDetailsSchema } from '@/validations/customer-details'
 import { zodResolver } from '@hookform/resolvers/zod'
+import {
+  BookMarkedIcon,
+  Contact,
+  Mail,
+  MapPinned,
+  NotepadText,
+  Phone,
+  User2,
+} from 'lucide-react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -25,6 +34,15 @@ import {
   DialogHeader,
   DialogTrigger,
 } from '../ui/dialog'
+import { Label } from '../ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select'
 import { Switch } from '../ui/switch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
 import { InvoiceList } from './invoice-list'
@@ -50,7 +68,7 @@ export function CustomerDetail({ customer }: CustomerDetailProps) {
   }
 
   return (
-    <div className="size-full flex items-start flex-row gap-10">
+    <div className="flex size-full flex-row items-start gap-10">
       <Card className="w-1/4">
         <CardHeader>
           <CardTitle>Detalhes</CardTitle>
@@ -58,74 +76,92 @@ export function CustomerDetail({ customer }: CustomerDetailProps) {
         </CardHeader>
         <CardContent className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
-            <span className="font-bold font-sans text-sm">Nome: </span>
-            <span className="font-sans text-sm font-normal">
-              {customer.fullName}
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="font-bold font-sans text-sm">Email: </span>
-            <span className="font-sans text-sm font-normal">
-              {customer.email}
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="font-bold font-sans text-sm">Telefone: </span>
-            <span className="font-sans text-sm font-normal">
-              {customer.phone}
-            </span>
-          </div>
-          <div className="flex items-center flex-col gap-2">
-            <div className="w-full flex flex-col items-start gap-2">
-              <div className="w-full flex flex-row gap-4">
-                <span className="font-bold font-sans text-sm">Rua:</span>
-                <span className="font-sans text-sm font-normal">
-                  {customer.address.street}
-                </span>
-              </div>
-              <div className="w-full flex flex-row gap-4">
-                <span className="font-bold font-sans text-sm">Bairro:</span>
-                <span className="font-sans text-sm font-normal">
-                  {customer.address.district}
-                </span>
-              </div>
-              <div className="w-full flex flex-row gap-4">
-                <span className="font-bold font-sans text-sm">Cidade:</span>
-                <span className="font-sans text-sm font-normal">
-                  {customer.address.city}
-                </span>
-              </div>
-              <div className="w-full flex flex-row gap-4">
-                <span className="font-bold font-sans text-sm">Estado:</span>
-                <span className="font-sans text-sm font-normal">
-                  {customer.address.state}
-                </span>
-              </div>
-              <div className="w-full flex flex-row gap-4">
-                <span className="font-bold font-sans text-sm">País:</span>
-                <span className="font-sans text-sm font-normal">
-                  {customer.address.country}
-                </span>
-              </div>
-              <div className="w-full flex flex-row gap-4">
-                <span className="font-bold font-sans text-sm">CEP:</span>
-                <span className="font-sans text-sm font-normal">
-                  {customer.address.cep}
-                </span>
-              </div>
+            <User2 className="size-6" />
+            <div className="flex flex-col items-start">
+              <span className="font-sans text-sm font-bold">Nome: </span>
+              <span className="font-sans text-sm font-light">
+                {customer.fullName}
+              </span>
             </div>
           </div>
-          <div className="flex flex-col gap-2 mb-3">
-            <span className="font-bold font-sans text-sm">Módulos:</span>
-            <div className="flex flex-row items-center gap-4 flex-wrap">
+          <div className="flex items-center gap-2">
+            <Mail className="size-6" />
+            <div className="flex flex-col items-start">
+              <span className="font-sans text-sm font-bold">Email: </span>
+              <span className="font-sans text-sm font-light">
+                {customer.email}
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Phone className="size-6" />
+            <div className="flex flex-col items-start">
+              <span className="font-sans text-sm font-bold">Telefone: </span>
+              <span className="font-sans text-sm font-light">
+                {customer.phone}
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <MapPinned className="size-6" />
+            <div className="flex flex-col items-start">
+              <span className="font-sans text-sm font-bold">Endereço: </span>
+              <span className="font-sans text-sm font-light">
+                {`${customer.address.cep} - ${customer.address.street}, 
+                ${customer.address.district}, 
+                ${customer.address.city} / ${customer.address.state}
+                 - ${customer.address.country}`}
+              </span>
+            </div>
+          </div>
+          <div className="mb-3 flex flex-col gap-2">
+            <span className="font-sans text-sm font-bold">Módulos:</span>
+            <div className="flex flex-row flex-wrap items-center gap-4">
               {customer.modules.map((module) => (
-                <div className="flex items-center gap-2">
+                <div key={module} className="flex items-center gap-2">
                   <span className="font-sans text-sm">{module}</span>
                   <Switch key={module} value={module} />
                 </div>
               ))}
             </div>
           </div>
+          <div>
+            <Label>Status</Label>
+            <div>
+              <Select>
+                <SelectTrigger className="h-12">
+                  <SelectValue placeholder="Ativo" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup className="max-h-52">
+                    {[
+                      {
+                        label: 'Ativo',
+                        value: '1',
+                      },
+                      {
+                        label: 'Inativo',
+                        value: '0',
+                      },
+                      {
+                        label: 'Bloqueado',
+                        value: '2',
+                      },
+                    ].map((item, index) => {
+                      return (
+                        <SelectItem key={index} value={String(item.value)}>
+                          {item.label}
+                        </SelectItem>
+                      )
+                    })}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
           <Dialog>
             <DialogTrigger asChild>
               <Button variant="default" type="button" className="w-full ">
@@ -134,7 +170,7 @@ export function CustomerDetail({ customer }: CustomerDetailProps) {
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <span className="font-bold font-sans text-sm">
+                <span className="font-sans text-sm font-bold">
                   Cadastro de usuário
                 </span>
               </DialogHeader>
@@ -160,7 +196,7 @@ export function CustomerDetail({ customer }: CustomerDetailProps) {
                     placeholder="Email"
                     className={cn('input', 'w-full')}
                   />
-                  <div className="w-full flex flex-row gap-2">
+                  <div className="flex w-full flex-row gap-2">
                     <DialogClose asChild>
                       <Button
                         variant="outline"
@@ -183,14 +219,22 @@ export function CustomerDetail({ customer }: CustomerDetailProps) {
       <Card className="w-3/4">
         <CardContent className="pt-3">
           <Tabs defaultValue="tab-1">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="tab-1" className='text-sm font-sans'>Notas Fiscais</TabsTrigger>
-              <TabsTrigger value="tab-2" className='text-sm font-sans'>Vencimentos</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="tab-1" className="font-sans text-sm">
+                Notas Fiscais
+              </TabsTrigger>
+              <TabsTrigger value="tab-2" className="font-sans text-sm">
+                DAS/MEI
+              </TabsTrigger>
+              <TabsTrigger value="tab-3" className="font-sans text-sm">
+                Certificado
+              </TabsTrigger>
             </TabsList>
             <TabsContent value="tab-1">
               <InvoiceList />
             </TabsContent>
             <TabsContent value="tab-2">Tab 2 content</TabsContent>
+            <TabsContent value="tab-3">Tab 3 content</TabsContent>
           </Tabs>
         </CardContent>
       </Card>

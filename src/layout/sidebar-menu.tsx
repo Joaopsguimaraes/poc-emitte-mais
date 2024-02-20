@@ -74,7 +74,7 @@ export function SidebarMenu({ item, parent }: Props) {
     return (
       <NavigationLink
         className={cn(
-          'bg-primary text-primary-foreground dark:bg-background group my-1 flex w-full items-center gap-2 rounded-md border-none p-3 transition-colors duration-300 ease-in-out hover:animate-pulse',
+          'bg-primary text-primary-foreground dark:bg-background hover:animate-fade-up hover:animate-once hover:animate-duration-[400ms] hover:animate-ease-in-out hover:animate-normal group my-1 flex w-full items-center gap-2 rounded-md border-none p-3 transition-colors duration-300 ease-in-out',
           item.disabled && 'cursor-not-allowed opacity-60',
           pathname.endsWith(item.href) && 'bg-active dark:bg-primary',
           isCollapse && 'justify-center'

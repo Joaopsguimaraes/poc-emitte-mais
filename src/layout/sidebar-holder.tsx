@@ -15,17 +15,16 @@ type Props = {
 export function SidebarHolder({ items }: Props) {
   const { isCollapse } = useSidebar()
 
-  // let srcOfLogo = '/emitte-mais-logo.svg'
   let srcOfLogo = '/iob-logo.svg'
 
   if (isCollapse) {
-    srcOfLogo = '/emitte-mais-collapse.svg'
+    srcOfLogo = '/collapse-iob.svg'
   }
 
   return items.length ? (
     <aside
       className={cn(
-        'bg-primary dark:bg-background relative min-h-screen p-0 rounded-se-3xl rounded-ee-3xl',
+        'bg-primary dark:bg-background relative min-h-screen rounded-ee-3xl rounded-se-3xl p-0',
         isCollapse ? 'w-[80px]' : 'w-[220px]'
       )}
     >

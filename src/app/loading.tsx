@@ -38,7 +38,7 @@ export default function Loading() {
         <Image
           alt="Emitte icon"
           height={49}
-          src="/emitte-mais-collapse.svg"
+          src="/collapse-iob.svg"
           width={49}
         ></Image>
       </motion.div>

@@ -37,15 +37,15 @@ export function Header() {
     >
       <div className="flex w-full justify-between">
         <div className="flex w-full items-center">
-          <span className="ml-10 text-sm text-[#718EBF]">
+          {/* <span className="ml-10 text-sm text-[#718EBF]">
             Olá, <span className="font-bold">Click Contabilidade!</span> Seu
             certificado de brinde já está disponível! 👋
-          </span>
+          </span> */}
         </div>
         <div className="flex items-center px-4 py-1">
           <nav className="flex items-center gap-2">
             <Button
-              className="md:flex "
+              className="hidden"
               onClick={handleToggleCollapse}
               size="icon"
               variant="ghost"
